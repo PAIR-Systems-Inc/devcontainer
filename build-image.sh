@@ -1,0 +1,1 @@
+docker build -t goodmem/devcontainer:latest -f .devcontainer/Dockerfile .
