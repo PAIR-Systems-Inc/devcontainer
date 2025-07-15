@@ -112,6 +112,14 @@ jobs:
       - name: Check out code
         uses: actions/checkout@v4
 
+      - name: Create .env file for testing
+        run: |
+          echo '# GoodMem Development Environment Configuration' > .devcontainer/.env
+          echo '# Replace these with your actual API keys' >> .devcontainer/.env
+          echo '' >> .devcontainer/.env
+          echo 'OPENAI_API_KEY="your-openai-api-key-here"' >> .devcontainer/.env
+          echo 'ADD_API_KEY="your-goodmem-api-key-here"' >> .devcontainer/.env
+
       - name: Test environment configuration
         uses: devcontainers/ci@v0.3
         with:
@@ -151,6 +159,14 @@ jobs:
     steps:
       - name: Check out code
         uses: actions/checkout@v4
+
+      - name: Create .env file for testing
+        run: |
+          echo '# GoodMem Development Environment Configuration' > .devcontainer/.env
+          echo '# Replace these with your actual API keys' >> .devcontainer/.env
+          echo '' >> .devcontainer/.env
+          echo 'OPENAI_API_KEY="your-openai-api-key-here"' >> .devcontainer/.env
+          echo 'ADD_API_KEY="your-goodmem-api-key-here"' >> .devcontainer/.env
 
       - name: Validate devcontainer.json
         run: |
