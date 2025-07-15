@@ -20,6 +20,8 @@ jobs:
       - name: Test devcontainer build
         uses: devcontainers/ci@v0.3
         with:
+          imageName: ghcr.io/mariamahmad8/goodmem-devcontainer
+          push: never
           runCmd: |
             echo "DevContainer built successfully"
             python3 --version
@@ -36,6 +38,8 @@ jobs:
       - name: Test all packages are installed
         uses: devcontainers/ci@v0.3
         with:
+          imageName: ghcr.io/mariamahmad8/goodmem-devcontainer
+          push: never
           runCmd: |
             python3 -c "
             import sys
@@ -79,6 +83,8 @@ jobs:
       - name: Test GoodMem API imports
         uses: devcontainers/ci@v0.3
         with:
+          imageName: ghcr.io/mariamahmad8/goodmem-devcontainer
+          push: never
           runCmd: |
             python3 -c "
             try:
@@ -109,6 +115,8 @@ jobs:
       - name: Test environment configuration
         uses: devcontainers/ci@v0.3
         with:
+          imageName: ghcr.io/mariamahmad8/goodmem-devcontainer
+          push: never
           runCmd: |
             python3 -c "
             from dotenv import load_dotenv
