@@ -1,0 +1,180 @@
+name: DevContainer Template CI
+
+on:
+  push:
+    branches:
+      - main
+  pull_request:
+    branches:
+      - main
+
+jobs:
+  test-devcontainer-build:
+    name: Test DevContainer Build
+    runs-on: ubuntu-latest
+    
+    steps:
+      - name: Check out code
+        uses: actions/checkout@v4
+
+      - name: Test devcontainer build
+        uses: devcontainers/ci@v0.3
+        with:
+          runCmd: |
+            echo "DevContainer built successfully"
+            python3 --version
+            echo "Python is available"
+
+  test-package-installation:
+    name: Test Package Installation
+    runs-on: ubuntu-latest
+    
+    steps:
+      - name: Check out code
+        uses: actions/checkout@v4
+
+      - name: Test all packages are installed
+        uses: devcontainers/ci@v0.3
+        with:
+          runCmd: |
+            python3 -c "
+            import sys
+            print('Python version:', sys.version)
+            
+            # Test GoodMem client
+            try:
+                import goodmem_client
+                print('goodmem_client imported successfully')
+            except ImportError as e:
+                print('goodmem_client import failed:', e)
+                exit(1)
+            
+            # Test OpenAI
+            try:
+                import openai
+                print('openai imported successfully')
+            except ImportError as e:
+                print('openai import failed:', e)
+                exit(1)
+            
+            # Test other dependencies
+            try:
+                import requests
+                import psycopg2
+                from dotenv import load_dotenv
+                print('All dependencies imported successfully')
+            except ImportError as e:
+                print('Dependency import failed:', e)
+                exit(1)
+            "
+
+  test-api-imports:
+    name: Test API Imports
+    runs-on: ubuntu-latest
+    
+    steps:
+      - name: Check out code
+        uses: actions/checkout@v4
+
+      - name: Test GoodMem API imports
+        uses: devcontainers/ci@v0.3
+        with:
+          runCmd: |
+            python3 -c "
+            try:
+                from goodmem_client.api import APIKeysApi, SpacesApi, MemoriesApi
+                from goodmem_client.configuration import Configuration
+                from goodmem_client.api_client import ApiClient
+                print('GoodMem API imports successful')
+            except ImportError as e:
+                print('GoodMem API import failed:', e)
+                exit(1)
+            
+            try:
+                from openai import OpenAI
+                print('OpenAI client import successful')
+            except ImportError as e:
+                print('OpenAI client import failed:', e)
+                exit(1)
+            "
+
+  test-configuration:
+    name: Test Configuration
+    runs-on: ubuntu-latest
+    
+    steps:
+      - name: Check out code
+        uses: actions/checkout@v4
+
+      - name: Test environment configuration
+        uses: devcontainers/ci@v0.3
+        with:
+          runCmd: |
+            python3 -c "
+            from dotenv import load_dotenv
+            import os
+            
+            # Load environment variables
+            load_dotenv(dotenv_path='.devcontainer/.env')
+            
+            # Check if template variables exist
+            openai_key = os.getenv('OPENAI_API_KEY')
+            goodmem_key = os.getenv('ADD_API_KEY')
+            
+            if openai_key and 'your-openai-api-key-here' in openai_key:
+                print('OpenAI key template found')
+            else:
+                print('OpenAI key template not found')
+                exit(1)
+                
+            if goodmem_key and 'your-goodmem-api-key-here' in goodmem_key:
+                print('GoodMem key template found')
+            else:
+                print('GoodMem key template not found')
+                exit(1)
+                
+            print('Environment configuration is correct')
+            "
+
+  validate-template:
+    name: Validate Template Structure
+    runs-on: ubuntu-latest
+    
+    steps:
+      - name: Check out code
+        uses: actions/checkout@v4
+
+      - name: Validate devcontainer.json
+        run: |
+          # Check if devcontainer.json is valid JSON
+          python3 -m json.tool .devcontainer/devcontainer.json > /dev/null
+          echo "devcontainer.json is valid JSON"
+
+      - name: Check required files
+        run: |
+          files=(
+            ".devcontainer/devcontainer.json"
+            ".devcontainer/Dockerfile" 
+            ".devcontainer/.env"
+            ".devcontainer/setup.sh"
+            "README.md"
+            ".gitignore"
+          )
+          
+          for file in "${files[@]}"; do
+            if [ ! -f "$file" ]; then
+              echo "Missing required file: $file"
+              exit 1
+            else
+              echo "Found: $file"
+            fi
+          done
+
+      - name: Check setup script is executable
+        run: |
+          if [ -x ".devcontainer/setup.sh" ]; then
+            echo "setup.sh is executable"
+          else
+            echo "setup.sh is not executable"
+            exit 1
+          fi
