@@ -1,0 +1,15 @@
+#!/bin/bash
+
+echo "🚀 Welcome to GoodMem Development Environment!"
+echo ""
+echo "This environment provides:"
+echo "  • All GoodMem client libraries pre-installed"
+echo "  • Python SDK, OpenAI integration"
+echo "  • Ready-to-use development workspace"
+echo ""
+echo "To get started:"
+echo "  1. Add your API keys to .devcontainer/.env"
+echo "  2. Update OPENAI_API_KEY and ADD_API_KEY"
+echo "  3. Start coding with your existing GoodMem server!"
+echo ""
+echo "🎉 Setup complete! Happy coding!"

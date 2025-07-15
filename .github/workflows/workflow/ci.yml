@@ -1,0 +1,27 @@
+name: CI
+
+on:
+  push:
+    branches:
+      - main
+  pull_request:
+    branches:
+      - main
+jobs:
+  tests:
+    name: Run test suite
+    runs-on: ubuntu-latest
+    
+    steps:
+      - name: Check out code
+        uses: actions/checkout@v3
+
+      - name: "Create env files"
+        run: |
+          echo 'OPENAI_API_KEY="${{ secrets.OPENAI_API_KEY }}"' >> .devcontainer/.env
+          echo 'ADD_API_KEY="${{ secrets.ADD_API_KEY }}"' >> .devcontainer/.env
+
+      - name: run tests
+        uses: devcontainers/ci@v0.3
+        with:
+          runCmd: python3 tests/test.py

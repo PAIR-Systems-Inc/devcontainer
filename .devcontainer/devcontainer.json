@@ -1,0 +1,22 @@
+{
+  "name": "GoodMem Development Environment",
+  "build": {
+    "dockerfile": "Dockerfile",
+    "context": "."
+  },
+  "customizations": {
+    "vscode": {
+      "extensions": [
+        "ms-python.python",
+        "ms-python.vscode-pylance",
+        "ms-vscode.vscode-json",
+        "ms-vscode.rest-client"
+      ],
+      "settings": {
+        "python.defaultInterpreterPath": "/usr/bin/python3"
+      }
+    }
+  },
+  "postCreateCommand": ".devcontainer/setup.sh",
+  "remoteUser": "vscode"
+}

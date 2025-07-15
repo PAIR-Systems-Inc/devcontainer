@@ -1,0 +1,53 @@
+import os
+from goodmem_client.api import spaces_api
+from goodmem_client.configuration import Configuration
+from goodmem_client.api_client import ApiClient
+
+# --- Step 1: Configuration (Safe to run outside try block) ---
+print("--- Starting GoodMem Connection Test ---")
+
+# This will connect to the server running on the host machine
+# because we are using the --network=host setting in our devcontainer.
+HOST_URL = "http://localhost:8080/v1"
+
+# Read the API key from an environment variable for security.
+# Provide a placeholder if it's not found.
+API_KEY = os.getenv("GOODMEM_ROOT_KEY", "PASTE_YOUR_ROOT_API_KEY_HERE")
+
+print(f"Attempting to connect to: {HOST_URL}")
+
+if "PASTE" in API_KEY:
+    print("\nWARNING: Root API key not found. Authentication might fail.")
+    print("         To run a full test, set the GOODMEM_ROOT_KEY environment variable")
+    print("         or paste the key directly into this script.\n")
+
+# --- Step 2: The Test (The part that might fail) ---
+try:
+    # Setup the client right before the call
+    config = Configuration()
+    config.host = HOST_URL
+    api_client = ApiClient(configuration=config)
+    
+    if "PASTE" not in API_KEY:
+        api_client.default_headers["x-api-key"] = API_KEY
+    
+    spaces_api_instance = spaces_api.SpacesApi(api_client)
+    
+    # This is the only line that makes a network call.
+    print("Attempting to list spaces...")
+    response = spaces_api_instance.list_spaces()
+    
+    # If the line above succeeds, we print a success message.
+    print("\n✅ SUCCESS! Connection to the GoodMem service is working.")
+    if "PASTE" not in API_KEY:
+        print(f"Authentication successful. Found {len(response.spaces)} spaces.")
+
+except Exception as e:
+    # If the API call fails for any reason, this block will run.
+    print(f"\n❌ FAILED! Could not connect to the GoodMem service.")
+    print("---")
+    print("Error details:", e)
+    print("\nTroubleshooting:")
+    print("1. Is the GoodMem service still running in your other terminal?")
+    print("2. Is the API key correct?")
+
