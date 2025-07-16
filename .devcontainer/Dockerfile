@@ -42,7 +42,7 @@ RUN wget https://packages.microsoft.com/config/ubuntu/22.04/packages-microsoft-p
     && dpkg -i packages-microsoft-prod.deb \
     && rm packages-microsoft-prod.deb \
     && apt-get update \
-    && apt-get install -y --no-install-recommends \
+    && apt-get install -y --no-install-recommends --fix-missing \
     dotnet-sdk-8.0 \
     && rm -rf /var/lib/apt/lists/*
 
@@ -69,6 +69,9 @@ RUN useradd -m -s /bin/bash vscode \
 
 # Create and set permissions for the workspace folder
 RUN mkdir -p /workspace && chown -R vscode:vscode /workspace
+
+COPY setup.sh /usr/local/bin/setup.sh
+RUN chmod +x /usr/local/bin/setup.sh
 
 USER vscode
 WORKDIR /workspace
