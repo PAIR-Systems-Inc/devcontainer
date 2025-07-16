@@ -9,9 +9,25 @@ on:
       - main
 
 jobs:
+  build_and_publish:
+    name: Build and Publish Image
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      packages: write
+    steps:
+      - uses: actions/checkout@v4
+      
+      - name: Build and push the devcontainer image
+        run: |
+          docker login --username mariamahmad8 --password ${{ secrets.GITHUB_TOKEN }} ghcr.io
+          docker build .devcontainer --tag ghcr.io/mariamahmad8/goodmem-container:latest
+          docker push ghcr.io/mariamahmad8/goodmem-container:latest
+
   test-devcontainer-build:
     name: Test DevContainer Build
     runs-on: ubuntu-latest
+    needs: build_and_publish
     
     steps:
       - name: Check out code
@@ -28,7 +44,7 @@ jobs:
       - name: Test devcontainer build
         uses: devcontainers/ci@v0.3
         with:
-          imageName: ghcr.io/mariamahmad8/goodmem-devcontainer
+          imageName: ghcr.io/mariamahmad8/goodmem-container
           push: never
           runCmd: |
             echo "DevContainer built successfully"
@@ -38,6 +54,7 @@ jobs:
   test-package-installation:
     name: Test Package Installation
     runs-on: ubuntu-latest
+    needs: build_and_publish
     
     steps:
       - name: Check out code
@@ -54,7 +71,7 @@ jobs:
       - name: Test all packages are installed
         uses: devcontainers/ci@v0.3
         with:
-          imageName: ghcr.io/mariamahmad8/goodmem-devcontainer
+          imageName: ghcr.io/mariamahmad8/goodmem-container
           push: never
           runCmd: |
             python3 -c "
@@ -91,6 +108,7 @@ jobs:
   test-api-imports:
     name: Test API Imports
     runs-on: ubuntu-latest
+    needs: build_and_publish
     
     steps:
       - name: Check out code
@@ -107,7 +125,7 @@ jobs:
       - name: Test GoodMem API imports
         uses: devcontainers/ci@v0.3
         with:
-          imageName: ghcr.io/mariamahmad8/goodmem-devcontainer
+          imageName: ghcr.io/mariamahmad8/goodmem-container
           push: never
           runCmd: |
             python3 -c "
@@ -131,6 +149,7 @@ jobs:
   test-configuration:
     name: Test Configuration
     runs-on: ubuntu-latest
+    needs: build_and_publish
     
     steps:
       - name: Check out code
@@ -147,7 +166,7 @@ jobs:
       - name: Test environment configuration
         uses: devcontainers/ci@v0.3
         with:
-          imageName: ghcr.io/mariamahmad8/goodmem-devcontainer
+          imageName: ghcr.io/mariamahmad8/goodmem-container
           push: never
           runCmd: |
             python3 -c "
@@ -179,6 +198,7 @@ jobs:
   validate-template:
     name: Validate Template Structure
     runs-on: ubuntu-latest
+    needs: build_and_publish
     
     steps:
       - name: Check out code
