@@ -15,32 +15,32 @@ if [[ "$CI" == "true" ]] || [[ "$GITHUB_ACTIONS" == "true" ]] || [[ -n "$RUNNER_
     exit 0
 fi
 
-echo "📋 Setup Instructions:"
-echo "  1. Install GoodMem server outside this container:"
+echo "📋 Getting Started:"
+echo "  1. Install GoodMem server on your host machine:"
 echo "     curl -s https://get.goodmem.ai | bash"
-echo "  2. Add your API keys to .devcontainer/.env"
-echo "  3. Update OPENAI_API_KEY and ADD_API_KEY"
-echo "  4. Start coding with GoodMem!"
+echo "  2. Update your API keys in .devcontainer/.env"
+echo "  3. Start coding with GoodMem!"
 echo ""
 
 # Check .env file
 ENV_FILE=".devcontainer/.env"
 if [[ -f "$ENV_FILE" ]]; then
-    echo "[INFO] Found $ENV_FILE. Checking for placeholder API keys..."
+    echo "[INFO] Found $ENV_FILE"
 
-    OPENAI_KEY=$(grep OPENAI_API_KEY "$ENV_FILE" | cut -d= -f2-)
-    ADD_KEY=$(grep ADD_API_KEY "$ENV_FILE" | cut -d= -f2-)
-
-    if [[ "$OPENAI_KEY" == *"your-openai-api-key-here"* ]]; then
-        echo "[WARNING] Placeholder OpenAI key still present in .env."
+    if grep -q "your-openai-api-key-here" "$ENV_FILE"; then
+        echo "[TODO] Replace placeholder OpenAI key in .env"
     fi
 
-    if [[ "$ADD_KEY" == *"your-goodmem-api-key-here"* ]]; then
-        echo "[WARNING] Placeholder GoodMem key still present in .env."
+    if grep -q "your-goodmem-api-key-here" "$ENV_FILE"; then
+        echo "[TODO] Replace placeholder GoodMem key in .env"
+    fi
+
+    if ! grep -q "your-.*-api-key-here" "$ENV_FILE"; then
+        echo "[✓] API keys configured"
     fi
 else
-    echo "[WARNING] .env file not found at $ENV_FILE. Please create it with API keys."
+    echo "[WARNING] .env file not found at $ENV_FILE"
 fi
 
 echo ""
-echo "🎉 Setup complete! Happy coding!"
+echo "🎉 Development environment ready!"
