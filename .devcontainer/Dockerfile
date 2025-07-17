@@ -70,8 +70,8 @@ RUN useradd -m -s /bin/bash vscode \
 # Create and set permissions for the workspace folder
 RUN mkdir -p /workspace && chown -R vscode:vscode /workspace
 
-COPY setup.sh /usr/local/bin/setup.sh
-RUN chmod +x /usr/local/bin/setup.sh
+COPY setup.sh .devcontainer/setup.sh
+RUN chmod +x .devcontainer/setup.sh
 
 USER vscode
 WORKDIR /workspace
