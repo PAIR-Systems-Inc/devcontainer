@@ -22,7 +22,16 @@ echo "  2. Install local server (in this devcontainer)"
 echo ""
 
 # Get user choice
-read -p "Choose option (1 or 2): " choice
+# Determine setup mode: interactive or automated
+if [[ "$GOODMEM_SETUP_CHOICE" == "1" || "$GOODMEM_SETUP_CHOICE" == "2" ]]; then
+    choice=$GOODMEM_SETUP_CHOICE
+elif [[ ! -t 0 ]]; then
+    echo "Detected non-interactive shell (e.g. Dev Container). Defaulting to option 2: install local server"
+    choice="2"
+else
+    read -p "Choose option (1 or 2): " choice
+fi
+
 
 case $choice in
     1)
