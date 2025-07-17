@@ -1,6 +1,6 @@
 {
   "name": "GoodMem Development Environment",
-  "build": { "dockerfile": "Dockerfile" },
+  "image": "ghcr.io/mariamahmad8/goodmem-container:latest",
   "customizations": {
     "vscode": {
       "extensions": [
