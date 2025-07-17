@@ -1,5 +1,16 @@
 FROM ubuntu:22.04
 
+LABEL org.opencontainers.image.title="GoodMem Dev Environment" \
+      org.opencontainers.image.description="Prebuilt DevContainer for GoodMem projects" \
+      org.opencontainers.image.version="1.0.0" \
+      org.opencontainers.image.licenses="MIT" \
+      org.opencontainers.image.url="https://github.com/mariamahmad8/goodmem-container" \
+      org.opencontainers.image.source="https://github.com/mariamahmad8/goodmem-container" \
+      com.github.devcontainers.template=true \
+      com.github.devcontainers.template.version="1.0.0"
+
+
+
 # Install system dependencies
 RUN apt-get update && apt-get install -y --no-install-recommends \
     git \
@@ -70,8 +81,11 @@ RUN useradd -m -s /bin/bash vscode \
 # Create and set permissions for the workspace folder
 RUN mkdir -p /workspace && chown -R vscode:vscode /workspace
 
-COPY setup.sh .devcontainer/setup.sh
-RUN chmod +x .devcontainer/setup.sh
+COPY setup.sh /setup.sh
+RUN chmod +x /setup.sh
+
+
+
 
 USER vscode
 WORKDIR /workspace

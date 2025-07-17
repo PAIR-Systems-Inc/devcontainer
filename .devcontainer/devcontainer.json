@@ -1,9 +1,6 @@
 {
   "name": "GoodMem Development Environment",
-  "build": {
-    "dockerfile": "Dockerfile",
-    "context": "."
-  },
+  "image": "ghcr.io/mariamahmad8/goodmem-container:latest",
   "customizations": {
     "vscode": {
       "extensions": [
@@ -18,6 +15,6 @@
     }
   },
   "onCreateCommand": "echo '# GoodMem Development Environment Configuration' > .devcontainer/.env && echo '# Replace these with your actual API keys' >> .devcontainer/.env && echo '' >> .devcontainer/.env && echo 'OPENAI_API_KEY=\"your-openai-api-key-here\"' >> .devcontainer/.env && echo 'ADD_API_KEY=\"your-goodmem-api-key-here\"' >> .devcontainer/.env",
-  "postCreateCommand": ".devcontainer/setup.sh",
+  "postCreateCommand": "/setup.sh",
   "remoteUser": "vscode"
 }
