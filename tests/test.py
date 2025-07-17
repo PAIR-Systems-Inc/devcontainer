@@ -9,7 +9,7 @@ import sys
 import os 
 from dotenv import load_dotenv
 
-load_dotenv(dotenv_path='../.devcontainer/.env')
+load_dotenv(dotenv_path='.devcontainer/.env')
 
 # Configuration - update with your GoodMem server details
 HOST_URL = "http://155.138.208.97:8080/v1"  # Replace with your server URL

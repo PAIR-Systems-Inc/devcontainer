@@ -19,11 +19,11 @@ jobs:
 
       - name: Create .env file for testing
         run: |
-          echo '# GoodMem Development Environment Configuration' > .devcontainer/.env
-          echo '# Replace these with your actual API keys' >> .devcontainer/.env
-          echo '' >> .devcontainer/.env
-          echo 'OPENAI_API_KEY="your-openai-api-key-here"' >> .devcontainer/.env
-          echo 'ADD_API_KEY="your-goodmem-api-key-here"' >> .devcontainer/.env
+          echo '# GoodMem Development Environment Configuration' > devcontainer/goodmem-container/.env
+          echo '# Replace these with your actual API keys' >> devcontainer/goodmem-container/.env
+          echo '' >> devcontainer/goodmem-container/.env
+          echo 'OPENAI_API_KEY="your-openai-api-key-here"' >> devcontainer/goodmem-container/.env
+          echo 'ADD_API_KEY="your-goodmem-api-key-here"' >> devcontainer/goodmem-container/.env
 
       - name: Test devcontainer build
         uses: devcontainers/ci@v0.3
@@ -44,11 +44,11 @@ jobs:
 
       - name: Create .env file for testing
         run: |
-          echo '# GoodMem Development Environment Configuration' > .devcontainer/.env
-          echo '# Replace these with your actual API keys' >> .devcontainer/.env
-          echo '' >> .devcontainer/.env
-          echo 'OPENAI_API_KEY="your-openai-api-key-here"' >> .devcontainer/.env
-          echo 'ADD_API_KEY="your-goodmem-api-key-here"' >> .devcontainer/.env
+          echo '# GoodMem Development Environment Configuration' > devcontainer/goodmem-container/.env
+          echo '# Replace these with your actual API keys' >> devcontainer/goodmem-container/.env
+          echo '' >> devcontainer/goodmem-container/.env
+          echo 'OPENAI_API_KEY="your-openai-api-key-here"' >> devcontainer/goodmem-container/.env
+          echo 'ADD_API_KEY="your-goodmem-api-key-here"' >> devcontainer/goodmem-container/.env
 
       - name: Test all packages are installed
         uses: devcontainers/ci@v0.3
@@ -96,11 +96,11 @@ jobs:
 
       - name: Create .env file for testing
         run: |
-          echo '# GoodMem Development Environment Configuration' > .devcontainer/.env
-          echo '# Replace these with your actual API keys' >> .devcontainer/.env
-          echo '' >> .devcontainer/.env
-          echo 'OPENAI_API_KEY="your-openai-api-key-here"' >> .devcontainer/.env
-          echo 'ADD_API_KEY="your-goodmem-api-key-here"' >> .devcontainer/.env
+          echo '# GoodMem Development Environment Configuration' > devcontainer/goodmem-container/.env
+          echo '# Replace these with your actual API keys' >> devcontainer/goodmem-container/.env
+          echo '' >> devcontainer/goodmem-container/.env
+          echo 'OPENAI_API_KEY="your-openai-api-key-here"' >> devcontainer/goodmem-container/.env
+          echo 'ADD_API_KEY="your-goodmem-api-key-here"' >> devcontainer/goodmem-container/.env
 
       - name: Test all language runtimes
         uses: devcontainers/ci@v0.3
@@ -142,11 +142,11 @@ jobs:
 
       - name: Create .env file for testing
         run: |
-          echo '# GoodMem Development Environment Configuration' > .devcontainer/.env
-          echo '# Replace these with your actual API keys' >> .devcontainer/.env
-          echo '' >> .devcontainer/.env
-          echo 'OPENAI_API_KEY="your-openai-api-key-here"' >> .devcontainer/.env
-          echo 'ADD_API_KEY="your-goodmem-api-key-here"' >> .devcontainer/.env
+          echo '# GoodMem Development Environment Configuration' > devcontainer/goodmem-container/.env
+          echo '# Replace these with your actual API keys' >> devcontainer/goodmem-container/.env
+          echo '' >> devcontainer/goodmem-container/.env
+          echo 'OPENAI_API_KEY="your-openai-api-key-here"' >> devcontainer/goodmem-container/.env
+          echo 'ADD_API_KEY="your-goodmem-api-key-here"' >> devcontainer/goodmem-container/.env
 
       - name: Run test.py
         uses: devcontainers/ci@v0.3
@@ -166,11 +166,11 @@ jobs:
 
       - name: Create .env file for testing
         run: |
-          echo '# GoodMem Development Environment Configuration' > .devcontainer/.env
-          echo '# Replace these with your actual API keys' >> .devcontainer/.env
-          echo '' >> .devcontainer/.env
-          echo 'OPENAI_API_KEY="your-openai-api-key-here"' >> .devcontainer/.env
-          echo 'ADD_API_KEY="your-goodmem-api-key-here"' >> .devcontainer/.env
+          echo '# GoodMem Development Environment Configuration' > devcontainer/goodmem-container/.env
+          echo '# Replace these with your actual API keys' >> devcontainer/goodmem-container/.env
+          echo '' >> devcontainer/goodmem-container/.env
+          echo 'OPENAI_API_KEY="your-openai-api-key-here"' >> devcontainer/goodmem-container/.env
+          echo 'ADD_API_KEY="your-goodmem-api-key-here"' >> devcontainer/goodmem-container/.env
 
       - name: Test GoodMem API imports
         uses: devcontainers/ci@v0.3
@@ -205,11 +205,11 @@ jobs:
 
       - name: Create .env file for testing
         run: |
-          echo '# GoodMem Development Environment Configuration' > .devcontainer/.env
-          echo '# Replace these with your actual API keys' >> .devcontainer/.env
-          echo '' >> .devcontainer/.env
-          echo 'OPENAI_API_KEY="your-openai-api-key-here"' >> .devcontainer/.env
-          echo 'ADD_API_KEY="your-goodmem-api-key-here"' >> .devcontainer/.env
+          echo '# GoodMem Development Environment Configuration' > devcontainer/goodmem-container/.env
+          echo '# Replace these with your actual API keys' >> devcontainer/goodmem-container/.env
+          echo '' >> devcontainer/goodmem-container/.env
+          echo 'OPENAI_API_KEY="your-openai-api-key-here"' >> devcontainer/goodmem-container/.env
+          echo 'ADD_API_KEY="your-goodmem-api-key-here"' >> devcontainer/goodmem-container/.env
 
       - name: Test environment configuration
         uses: devcontainers/ci@v0.3
@@ -221,7 +221,7 @@ jobs:
             import os
             
             # Load environment variables
-            load_dotenv(dotenv_path='.devcontainer/.env')
+            load_dotenv(dotenv_path='devcontainer/goodmem-container/.env')
             
             # Check if template variables exist
             openai_key = os.getenv('OPENAI_API_KEY')
@@ -252,11 +252,11 @@ jobs:
 
       - name: Create .env file for testing
         run: |
-          echo '# GoodMem Development Environment Configuration' > .devcontainer/.env
-          echo '# Replace these with your actual API keys' >> .devcontainer/.env
-          echo '' >> .devcontainer/.env
-          echo 'OPENAI_API_KEY="your-openai-api-key-here"' >> .devcontainer/.env
-          echo 'ADD_API_KEY="your-goodmem-api-key-here"' >> .devcontainer/.env
+          echo '# GoodMem Development Environment Configuration' > devcontainer/goodmem-container/.env
+          echo '# Replace these with your actual API keys' >> devcontainer/goodmem-container/.env
+          echo '' >> devcontainer/goodmem-container/.env
+          echo 'OPENAI_API_KEY="your-openai-api-key-here"' >> devcontainer/goodmem-container/.env
+          echo 'ADD_API_KEY="your-goodmem-api-key-here"' >> devcontainer/goodmem-container/.env
 
       - name: Validate devcontainer.json
         run: |
@@ -267,9 +267,9 @@ jobs:
       - name: Check required files
         run: |
           files=(
-            ".devcontainer/devcontainer.json"
-            ".devcontainer/Dockerfile" 
-            ".devcontainer/.env"
+            "devcontainer/goodmem-container/devcontainer.json"
+            "devcontainer/goodmem-container/Dockerfile" 
+            "devcontainer/goodmem-container/.env"
             "setup.sh"
             ".gitignore"
           )

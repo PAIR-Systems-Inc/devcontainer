@@ -32,7 +32,7 @@ class Program
     {
         try
         {
-            var envPath = "../.devcontainer/.env";
+            var envPath = ".devcontainer/.env";
             if (File.Exists(envPath))
             {
                 var lines = File.ReadAllLines(envPath);

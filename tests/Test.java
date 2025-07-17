@@ -31,7 +31,7 @@ public class Test {
     private static void loadEnvironment() {
         Properties props = new Properties();
         try {
-            props.load(new FileInputStream("../.devcontainer/.env"));
+            props.load(new FileInputStream(".devcontainer/.env"));
             API_KEY = props.getProperty("ADD_API_KEY");
         } catch (IOException e) {
             System.out.println("Could not load .env file: " + e.getMessage());

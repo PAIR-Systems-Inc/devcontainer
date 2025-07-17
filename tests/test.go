@@ -32,7 +32,7 @@ func main() {
 }
 
 func loadEnvironment() {
-	file, err := os.Open("../.devcontainer/.env")
+	file, err := os.Open(".devcontainer/.env")
 	if err != nil {
 		fmt.Printf("Could not load .env file: %v\n", err)
 		return
