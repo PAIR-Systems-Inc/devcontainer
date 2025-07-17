@@ -200,7 +200,7 @@ jobs:
             ".devcontainer/devcontainer.json"
             ".devcontainer/Dockerfile" 
             ".devcontainer/.env"
-            "/setup.sh"
+            "goodmem-container/setup.sh"
             ".gitignore"
           )
           
