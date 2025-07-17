@@ -14,7 +14,7 @@
       }
     }
   },
-  "onCreateCommand": "echo '# GoodMem Development Environment Configuration' > .devcontainer/.env && echo '# Replace these with your actual API keys' >> .devcontainer/.env && echo '' >> .devcontainer/.env && echo 'OPENAI_API_KEY=\"your-openai-api-key-here\"' >> .devcontainer/.env && echo 'ADD_API_KEY=\"your-goodmem-api-key-here\"' >> .devcontainer/.env",
+  "onCreateCommand": "[ ! -f .devcontainer/.env ] && echo '# GoodMem Development Environment Configuration' > .devcontainer/.env && echo '# Replace these with your actual API keys' >> .devcontainer/.env && echo '' >> .devcontainer/.env && echo 'OPENAI_API_KEY=\"your-openai-api-key-here\"' >> .devcontainer/.env && echo 'ADD_API_KEY=\"your-goodmem-api-key-here\"' >> .devcontainer/.env || echo '.env already exists, skipping creation.'",
   "postCreateCommand": "/setup.sh",
   "remoteUser": "vscode"
 }
