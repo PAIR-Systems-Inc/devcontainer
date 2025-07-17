@@ -200,7 +200,7 @@ jobs:
             ".devcontainer/devcontainer.json"
             ".devcontainer/Dockerfile" 
             ".devcontainer/.env"
-            "goodmem-container/setup.sh"
+            "setup.sh"
             ".gitignore"
           )
           
@@ -215,7 +215,7 @@ jobs:
 
       - name: Check setup script is executable
         run: |
-          if [ -x ".devcontainer/setup.sh" ]; then
+          if [ -x "setup.sh" ]; then
             echo "setup.sh is executable"
           else
             echo "setup.sh is not executable"
