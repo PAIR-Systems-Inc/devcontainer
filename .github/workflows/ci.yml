@@ -200,8 +200,7 @@ jobs:
             ".devcontainer/devcontainer.json"
             ".devcontainer/Dockerfile" 
             ".devcontainer/.env"
-            ".devcontainer/setup.sh"
-            "README.md"
+            "/setup.sh"
             ".gitignore"
           )
           
