@@ -272,14 +272,14 @@ jobs:
       - name: Validate devcontainer.json
         run: |
           # Check if devcontainer.json is valid JSON
-          python3 -m json.tool devcontainers/goodmem-dev/devcontainer.json > /dev/null
+          python3 -m json.tool devcontainers/goodmem-dev/.devcontainer/devcontainer.json > /dev/null
           echo "devcontainer.json is valid JSON"
 
       - name: Check required files
         run: |
           files=(
-            "devcontainers/goodmem-dev/devcontainer.json"
-            "devcontainers/goodmem-dev/Dockerfile" 
+            "devcontainers/goodmem-dev/.devcontainer/devcontainer.json"
+            "devcontainers/goodmem-dev/.devcontainer/Dockerfile" 
             "devcontainers/goodmem-dev/.env"
             "setup.sh"
             ".gitignore"
