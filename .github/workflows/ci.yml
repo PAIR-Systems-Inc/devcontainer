@@ -28,7 +28,7 @@ jobs:
       - name: Test devcontainer build
         uses: devcontainers/ci@v0.3
         with:
-          configFile: devcontainers/goodmem-dev/devcontainer.json
+          configFile: ./devcontainers/goodmem-dev/devcontainer.json
           push: never
           runCmd: |
             echo "DevContainer built successfully"
@@ -54,7 +54,7 @@ jobs:
       - name: Test all packages are installed
         uses: devcontainers/ci@v0.3
         with:
-          configFile: devcontainers/goodmem-dev/devcontainer.json
+          configFile: ./devcontainers/goodmem-dev/devcontainer.json
           push: never
           runCmd: |
             python3 -c "
@@ -107,7 +107,7 @@ jobs:
       - name: Test all language runtimes
         uses: devcontainers/ci@v0.3
         with:
-          configFile: devcontainers/goodmem-dev/devcontainer.json
+          configFile: ./devcontainers/goodmem-dev/devcontainer.json
           push: never
           runCmd: |
             # Test Python
@@ -154,7 +154,7 @@ jobs:
       - name: Run test.py
         uses: devcontainers/ci@v0.3
         with:
-          configFile: devcontainers/goodmem-dev/devcontainer.json
+          configFile: ./devcontainers/goodmem-dev/devcontainer.json
           push: never
           runCmd: |
             cd /workspaces/goodmem-container
@@ -179,7 +179,7 @@ jobs:
       - name: Test GoodMem API imports
         uses: devcontainers/ci@v0.3
         with:
-          configFile: devcontainers/goodmem-dev/devcontainer.json
+          configFile: ./devcontainers/goodmem-dev/devcontainer.json
           push: never
           runCmd: |
             python3 -c "
@@ -219,7 +219,7 @@ jobs:
       - name: Test environment configuration
         uses: devcontainers/ci@v0.3
         with:
-          configFile: devcontainers/goodmem-dev/devcontainer.json
+          configFile: ./devcontainers/goodmem-dev/devcontainer.json
           push: never
           runCmd: |
             python3 -c "
