@@ -26,9 +26,7 @@
         "ms-vscode.vscode-node-azure-pack",
         "GitLab.gitlab-workflow",
         "ms-vscode.vscode-github-pullrequest",
-        "eamodio.gitlens",
-        "ms-vscode.theme-tomorrowkit",
-        "PKief.material-icon-theme"
+        "eamodio.gitlens"
       ],
       "settings": {
         "python.defaultInterpreterPath": "/usr/bin/python3",
