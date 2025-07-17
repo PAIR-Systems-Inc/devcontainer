@@ -86,6 +86,76 @@ jobs:
                 exit(1)
             "
 
+  test-language-installations:
+    name: Test Multi-Language Installations
+    runs-on: ubuntu-latest
+    
+    steps:
+      - name: Check out code
+        uses: actions/checkout@v4
+
+      - name: Create .env file for testing
+        run: |
+          echo '# GoodMem Development Environment Configuration' > .devcontainer/.env
+          echo '# Replace these with your actual API keys' >> .devcontainer/.env
+          echo '' >> .devcontainer/.env
+          echo 'OPENAI_API_KEY="your-openai-api-key-here"' >> .devcontainer/.env
+          echo 'ADD_API_KEY="your-goodmem-api-key-here"' >> .devcontainer/.env
+
+      - name: Test all language runtimes
+        uses: devcontainers/ci@v0.3
+        with:
+          push: never
+          runCmd: |
+            # Test Python
+            python3 --version
+            echo "Python installation: OK"
+            
+            # Test Java
+            java -version
+            javac -version
+            echo "Java installation: OK"
+            
+            # Test .NET
+            dotnet --version
+            echo ".NET installation: OK"
+            
+            # Test Go
+            go version
+            echo "Go installation: OK"
+            
+            # Test Node.js
+            node --version
+            npm --version
+            pnpm --version
+            echo "Node.js installation: OK"
+            
+            echo "All language runtimes installed successfully"
+
+  run-tests:
+    name: Run Custom Tests
+    runs-on: ubuntu-latest
+    
+    steps:
+      - name: Check out code
+        uses: actions/checkout@v4
+
+      - name: Create .env file for testing
+        run: |
+          echo '# GoodMem Development Environment Configuration' > .devcontainer/.env
+          echo '# Replace these with your actual API keys' >> .devcontainer/.env
+          echo '' >> .devcontainer/.env
+          echo 'OPENAI_API_KEY="your-openai-api-key-here"' >> .devcontainer/.env
+          echo 'ADD_API_KEY="your-goodmem-api-key-here"' >> .devcontainer/.env
+
+      - name: Run test.py
+        uses: devcontainers/ci@v0.3
+        with:
+          push: never
+          runCmd: |
+            cd /workspaces/goodmem-container
+            python3 tests/test.py
+
   test-api-imports:
     name: Test API Imports
     runs-on: ubuntu-latest
