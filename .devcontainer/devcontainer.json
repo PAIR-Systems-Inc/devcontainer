@@ -4,9 +4,6 @@
     "dockerfile": "Dockerfile",
     "context": "."
   },
-  "features": {
-    "ghcr.io/devcontainers/features/docker-in-docker:2": {}
-  },
   "customizations": {
     "vscode": {
       "extensions": [
@@ -20,7 +17,7 @@
       }
     }
   },
+  "onCreateCommand": "echo '# GoodMem Development Environment Configuration' > .devcontainer/.env && echo '# Replace these with your actual API keys' >> .devcontainer/.env && echo '' >> .devcontainer/.env && echo 'OPENAI_API_KEY=\"your-openai-api-key-here\"' >> .devcontainer/.env && echo 'ADD_API_KEY=\"your-goodmem-api-key-here\"' >> .devcontainer/.env",
   "postCreateCommand": ".devcontainer/setup.sh",
-  "remoteUser": "vscode",
-  "onCreateCommand": "echo '# GoodMem Development Environment Configuration' > .devcontainer/.env && echo '# Replace these with your actual API keys' >> .devcontainer/.env && echo '' >> .devcontainer/.env && echo 'OPENAI_API_KEY=\"your-openai-api-key-here\"' >> .devcontainer/.env && echo 'ADD_API_KEY=\"your-goodmem-api-key-here\"' >> .devcontainer/.env"
+  "remoteUser": "vscode"
 }
