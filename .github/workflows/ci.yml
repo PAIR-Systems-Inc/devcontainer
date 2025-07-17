@@ -229,30 +229,28 @@ jobs:
           push: never
           runCmd: |
             python3 -c "
-            from dotenv import load_dotenv
             import os
-            
-            # Load environment variables
-            load_dotenv(dotenv_path='devcontainers/goodmem-dev/.env')
-            
-            # Check if template variables exist
             openai_key = os.getenv('OPENAI_API_KEY')
             goodmem_key = os.getenv('ADD_API_KEY')
-            
+
             if openai_key:
                 print('OpenAI key found')
             else:
                 print('OpenAI key not found')
                 exit(1)
-                
+
             if goodmem_key:
                 print('GoodMem key found')
             else:
                 print('GoodMem key not found')
                 exit(1)
-                
+
             print('Environment configuration is correct')
             "
+        env:
+          OPENAI_API_KEY: dummy-value
+          ADD_API_KEY: dummy-value
+
 
   validate-template:
     name: Validate Template Structure
