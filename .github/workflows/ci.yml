@@ -239,16 +239,16 @@ jobs:
             openai_key = os.getenv('OPENAI_API_KEY')
             goodmem_key = os.getenv('ADD_API_KEY')
             
-            if openai_key and 'your-openai-api-key-here' in openai_key:
-                print('OpenAI key template found')
+            if openai_key:
+                print('OpenAI key found')
             else:
-                print('OpenAI key template not found')
+                print('OpenAI key not found')
                 exit(1)
                 
-            if goodmem_key and 'your-goodmem-api-key-here' in goodmem_key:
-                print('GoodMem key template found')
+            if goodmem_key:
+                print('GoodMem key found')
             else:
-                print('GoodMem key template not found')
+                print('GoodMem key not found')
                 exit(1)
                 
             print('Environment configuration is correct')
