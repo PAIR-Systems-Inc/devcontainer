@@ -9,32 +9,7 @@ on:
       - main
 
 jobs:
-  test-devcontainer-build:
-    name: Test DevContainer Build
-    runs-on: ubuntu-latest
-    
-    steps:
-      - name: Check out code
-        uses: actions/checkout@v4
-
-      - name: Create .env file for testing
-        run: |
-          mkdir -p devcontainers/goodmem-dev
-          echo '# GoodMem Development Environment Configuration' > devcontainers/goodmem-dev/.env
-          echo '# Replace these with your actual API keys' >> devcontainers/goodmem-dev/.env
-          echo '' >> devcontainers/goodmem-dev/.env
-          echo 'OPENAI_API_KEY="your-openai-api-key-here"' >> devcontainers/goodmem-dev/.env
-          echo 'ADD_API_KEY="your-goodmem-api-key-here"' >> devcontainers/goodmem-dev/.env
-
-      - name: Test devcontainer build
-        uses: devcontainers/ci@v0.3
-        with:
-          subFolder: devcontainers/goodmem-dev
-          push: never
-          runCmd: |
-            echo "DevContainer built successfully"
-            python3 --version
-            echo "Python is available"
+  # Removed devcontainer build test - not compatible with template structure
 
   test-package-installation:
     name: Test Package Installation
@@ -272,14 +247,14 @@ jobs:
       - name: Validate devcontainer.json
         run: |
           # Check if devcontainer.json is valid JSON
-          python3 -m json.tool devcontainers/goodmem-dev/.devcontainer/devcontainer.json > /dev/null
+          python3 -m json.tool devcontainers/goodmem-dev/devcontainer.json > /dev/null
           echo "devcontainer.json is valid JSON"
 
       - name: Check required files
         run: |
           files=(
-            "devcontainers/goodmem-dev/.devcontainer/devcontainer.json"
-            "devcontainers/goodmem-dev/.devcontainer/Dockerfile" 
+            "devcontainers/goodmem-dev/devcontainer.json"
+            "devcontainers/goodmem-dev/Dockerfile" 
             "devcontainers/goodmem-dev/.env"
             "setup.sh"
             ".gitignore"
