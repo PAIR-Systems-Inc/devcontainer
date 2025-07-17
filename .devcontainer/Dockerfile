@@ -9,7 +9,8 @@ LABEL org.opencontainers.image.title="GoodMem Dev Environment" \
       com.github.devcontainers.template=true \
       com.github.devcontainers.template.version="1.0.0"
 
-
+# Use bash as default shell
+SHELL ["/bin/bash", "-c"]
 
 # Install system dependencies
 RUN apt-get update && apt-get install -y --no-install-recommends \
@@ -25,7 +26,7 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
     unzip \
     && rm -rf /var/lib/apt/lists/*
 
-# Install Python 3.8+ (Ubuntu 22.04 comes with Python 3.10)
+# Install Python 3.10 + pip + uv
 RUN apt-get update && apt-get install -y --no-install-recommends \
     python3 \
     python3-pip \
@@ -33,9 +34,8 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
     python3-dev \
     && rm -rf /var/lib/apt/lists/*
 
-# Install pip and Python packages
-RUN python3 -m pip install --upgrade pip uv
-RUN python3 -m pip install \
+RUN python3 -m pip install --upgrade pip uv \
+ && python3 -m pip install \
     goodmem-client \
     psycopg2-binary \
     openai \
@@ -43,55 +43,54 @@ RUN python3 -m pip install \
     requests \
     pyyaml
 
-# Install Java 8+ (OpenJDK 11)
-# RUN apt-get update && apt-get install -y --no-install-recommends \
-#     openjdk-11-jdk \
-#     && rm -rf /var/lib/apt/lists/*
+# Install Java 17
+RUN apt-get update && apt-get install -y --no-install-recommends \
+    openjdk-17-jdk \
+    && rm -rf /var/lib/apt/lists/*
 
-# Install .NET 8.0
-# RUN wget https://packages.microsoft.com/config/ubuntu/22.04/packages-microsoft-prod.deb -O packages-microsoft-prod.deb \
-#     && dpkg -i packages-microsoft-prod.deb \
-#     && rm packages-microsoft-prod.deb \
-#     && apt-get update \
-#     && apt-get install -y --no-install-recommends --fix-missing \
-#     dotnet-sdk-8.0 \
-#     && rm -rf /var/lib/apt/lists/*
+ENV JAVA_HOME=/usr/lib/jvm/java-17-openjdk-amd64
+ENV PATH="${JAVA_HOME}/bin:${PATH}"
 
-# Install Go 1.22+
-# RUN wget https://go.dev/dl/go1.22.0.linux-amd64.tar.gz \
-#     && tar -C /usr/local -xzf go1.22.0.linux-amd64.tar.gz \
-#     && rm go1.22.0.linux-amd64.tar.gz
+# Install .NET 8.0 SDK
+RUN wget https://packages.microsoft.com/config/ubuntu/22.04/packages-microsoft-prod.deb -O packages-microsoft-prod.deb \
+    && dpkg -i packages-microsoft-prod.deb \
+    && rm packages-microsoft-prod.deb \
+    && apt-get update \
+    && apt-get install -y --no-install-recommends \
+    dotnet-sdk-8.0 \
+    && rm -rf /var/lib/apt/lists/*
 
-# Install Node.js (LTS version)
-# RUN curl -fsSL https://deb.nodesource.com/setup_lts.x | bash - \
-#     && apt-get install -y nodejs \
-#     && rm -rf /var/lib/apt/lists/*
+ENV DOTNET_ROOT=/usr/share/dotnet
+ENV PATH="${DOTNET_ROOT}:${PATH}"
 
-# Set environment variables
-# ENV JAVA_HOME=/usr/lib/jvm/java-11-openjdk-amd64
-# ENV PATH=$PATH:/usr/local/go/bin
-# ENV DOTNET_ROOT=/usr/share/dotnet
-# ENV PATH=$PATH:$DOTNET_ROOT
+# Install Go 1.22.2
+RUN wget https://go.dev/dl/go1.22.2.linux-amd64.tar.gz \
+    && tar -C /usr/local -xzf go1.22.2.linux-amd64.tar.gz \
+    && rm go1.22.2.linux-amd64.tar.gz
 
-# Create a non-root user 'vscode' and grant passwordless sudo permissions
+ENV PATH="/usr/local/go/bin:${PATH}"
+
+# Install Node.js 20.x + pnpm
+RUN curl -fsSL https://deb.nodesource.com/setup_20.x | bash - \
+    && apt-get install -y nodejs \
+    && npm install -g pnpm \
+    && rm -rf /var/lib/apt/lists/*
+
+# Create non-root vscode user
 RUN useradd -m -s /bin/bash vscode \
     && echo "vscode ALL=(ALL) NOPASSWD:ALL" > /etc/sudoers.d/vscode-nopasswd \
     && chmod 0440 /etc/sudoers.d/vscode-nopasswd
 
-# Create and set permissions for the workspace folder
+# Set up workspace
 RUN mkdir -p /workspace && chown -R vscode:vscode /workspace
 
+# Optional: build GoodMem clients (uncomment if you include clients/ directory)
+# COPY ./clients /opt/clients
+# RUN chmod +x /opt/clients/build_all.sh && /opt/clients/build_all.sh
+
+# Setup script
 COPY setup.sh /setup.sh
 RUN chmod +x /setup.sh
 
-
-
-
 USER vscode
 WORKDIR /workspace
-
-# Set up Go workspace for vscode user
-# RUN mkdir -p /home/vscode/go/{bin,src,pkg}
-# ENV GOPATH=/home/vscode/go
-# ENV PATH=$PATH:$GOPATH/bin
-
