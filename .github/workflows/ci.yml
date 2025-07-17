@@ -22,9 +22,10 @@ jobs:
           echo 'ADD_API_KEY="your-goodmem-api-key-here"' >> devcontainers/goodmem-dev/.env
 
       - name: Run Python dependency checks
-        uses: devcontainers/action@v1
+        uses: devcontainers/ci@v0.3
         with:
-          templatePath: devcontainers/goodmem-dev
+          subFolder: devcontainers/goodmem-dev/.
+          push: never
           runCmd: |
             python3 -c "
             import sys
@@ -49,9 +50,10 @@ jobs:
           echo 'ADD_API_KEY="your-goodmem-api-key-here"' >> devcontainers/goodmem-dev/.env
 
       - name: Run language version checks
-        uses: devcontainers/action@v1
+        uses: devcontainers/ci@v0.3
         with:
-          templatePath: devcontainers/goodmem-dev
+          subFolder: devcontainers/goodmem-dev/.
+          push: never
           runCmd: |
             python3 --version
             java -version
@@ -77,9 +79,10 @@ jobs:
           echo 'ADD_API_KEY="your-goodmem-api-key-here"' >> devcontainers/goodmem-dev/.env
 
       - name: Run tests/test.py
-        uses: devcontainers/action@v1
+        uses: devcontainers/ci@v0.3
         with:
-          templatePath: devcontainers/goodmem-dev
+          subFolder: devcontainers/goodmem-dev/.
+          push: never
           runCmd: |
             cd /workspaces/goodmem-container
             python3 tests/test.py
@@ -99,9 +102,10 @@ jobs:
           echo 'ADD_API_KEY="your-goodmem-api-key-here"' >> devcontainers/goodmem-dev/.env
 
       - name: Import API clients
-        uses: devcontainers/action@v1
+        uses: devcontainers/ci@v0.3
         with:
-          templatePath: devcontainers/goodmem-dev
+          subFolder: devcontainers/goodmem-dev/.
+          push: never
           runCmd: |
             python3 -c "
             from goodmem_client.api import APIKeysApi, SpacesApi, MemoriesApi
@@ -126,9 +130,10 @@ jobs:
           echo 'ADD_API_KEY="dummy-value"' >> devcontainers/goodmem-dev/.env
 
       - name: Verify env vars exist
-        uses: devcontainers/action@v1
+        uses: devcontainers/ci@v0.3
         with:
-          templatePath: devcontainers/goodmem-dev
+          subFolder: devcontainers/goodmem-dev/.
+          push: never
           runCmd: |
             python3 -c "
             import os
