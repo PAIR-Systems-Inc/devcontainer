@@ -21,9 +21,9 @@ jobs:
         run: |
           # Create a test workspace that uses our template
           mkdir -p test-workspace/.devcontainer
-          cp devcontainers/goodmem-dev/devcontainer.json test-workspace/.devcontainer/
-          cp devcontainers/goodmem-dev/Dockerfile test-workspace/.devcontainer/
-          cp setup.sh test-workspace/
+          cp src/goodmem-dev/devcontainer.json test-workspace/.devcontainer/
+          cp build/Dockerfile test-workspace/.devcontainer/
+          cp build/setup.sh test-workspace/
           
           # Create test .env file
           echo 'OPENAI_API_KEY="test-key"' > test-workspace/.devcontainer/.env
@@ -50,9 +50,9 @@ jobs:
       - name: Setup test workspace from template
         run: |
           mkdir -p test-workspace/.devcontainer
-          cp devcontainers/goodmem-dev/devcontainer.json test-workspace/.devcontainer/
-          cp devcontainers/goodmem-dev/Dockerfile test-workspace/.devcontainer/
-          cp setup.sh test-workspace/
+          cp src/goodmem-dev/devcontainer.json test-workspace/.devcontainer/
+          cp build/Dockerfile test-workspace/.devcontainer/
+          cp build/setup.sh test-workspace/
           echo 'OPENAI_API_KEY="test-key"' > test-workspace/.devcontainer/.env
           echo 'ADD_API_KEY="test-key"' >> test-workspace/.devcontainer/.env
 
@@ -103,16 +103,16 @@ jobs:
 
       - name: Create .env file for testing
         run: |
-          echo '# GoodMem Development Environment Configuration' > devcontainers/goodmem-dev/.env
-          echo '# Replace these with your actual API keys' >> devcontainers/goodmem-dev/.env
-          echo '' >> devcontainers/goodmem-dev/.env
-          echo 'OPENAI_API_KEY="your-openai-api-key-here"' >> devcontainers/goodmem-dev/.env
-          echo 'ADD_API_KEY="your-goodmem-api-key-here"' >> devcontainers/goodmem-dev/.env
+          echo '# GoodMem Development Environment Configuration' > src/goodmem-dev/.env
+          echo '# Replace these with your actual API keys' >> src/goodmem-dev/.env
+          echo '' >> src/goodmem-dev/.env
+          echo 'OPENAI_API_KEY="your-openai-api-key-here"' >> src/goodmem-dev/.env
+          echo 'ADD_API_KEY="your-goodmem-api-key-here"' >> src/goodmem-dev/.env
 
       - name: Test all language runtimes
         uses: devcontainers/ci@v0.3
         with:
-          configFile: devcontainers/goodmem-dev/devcontainer.json
+          configFile: src/goodmem-dev/devcontainer.json
           push: never
           runCmd: |
             # Test Python
@@ -150,16 +150,16 @@ jobs:
 
       - name: Create .env file for testing
         run: |
-          echo '# GoodMem Development Environment Configuration' > devcontainers/goodmem-dev/.env
-          echo '# Replace these with your actual API keys' >> devcontainers/goodmem-dev/.env
-          echo '' >> devcontainers/goodmem-dev/.env
-          echo 'OPENAI_API_KEY="your-openai-api-key-here"' >> devcontainers/goodmem-dev/.env
-          echo 'ADD_API_KEY="your-goodmem-api-key-here"' >> devcontainers/goodmem-dev/.env
+          echo '# GoodMem Development Environment Configuration' > src/goodmem-dev/.env
+          echo '# Replace these with your actual API keys' >> src/goodmem-dev/.env
+          echo '' >> src/goodmem-dev/.env
+          echo 'OPENAI_API_KEY="your-openai-api-key-here"' >> src/goodmem-dev/.env
+          echo 'ADD_API_KEY="your-goodmem-api-key-here"' >> src/goodmem-dev/.env
 
       - name: Run test.py
         uses: devcontainers/ci@v0.3
         with:
-          configFile: devcontainers/goodmem-dev/devcontainer.json
+          configFile: src/goodmem-dev/devcontainer.json
           push: never
           runCmd: |
             cd /workspaces/goodmem-container
@@ -175,16 +175,16 @@ jobs:
 
       - name: Create .env file for testing
         run: |
-          echo '# GoodMem Development Environment Configuration' > devcontainers/goodmem-dev/.env
-          echo '# Replace these with your actual API keys' >> devcontainers/goodmem-dev/.env
-          echo '' >> devcontainers/goodmem-dev/.env
-          echo 'OPENAI_API_KEY="your-openai-api-key-here"' >> devcontainers/goodmem-dev/.env
-          echo 'ADD_API_KEY="your-goodmem-api-key-here"' >> devcontainers/goodmem-dev/.env
+          echo '# GoodMem Development Environment Configuration' > src/goodmem-dev/.env
+          echo '# Replace these with your actual API keys' >> src/goodmem-dev/.env
+          echo '' >> src/goodmem-dev/.env
+          echo 'OPENAI_API_KEY="your-openai-api-key-here"' >> src/goodmem-dev/.env
+          echo 'ADD_API_KEY="your-goodmem-api-key-here"' >> src/goodmem-dev/.env
 
       - name: Test GoodMem API imports
         uses: devcontainers/ci@v0.3
         with:
-          configFile: devcontainers/goodmem-dev/devcontainer.json
+          configFile: src/goodmem-dev/devcontainer.json
           push: never
           runCmd: |
             python3 -c "
@@ -215,16 +215,16 @@ jobs:
 
       - name: Create .env file for testing
         run: |
-          echo '# GoodMem Development Environment Configuration' > devcontainers/goodmem-dev/.env
-          echo '# Replace these with your actual API keys' >> devcontainers/goodmem-dev/.env
-          echo '' >> devcontainers/goodmem-dev/.env
-          echo 'OPENAI_API_KEY="your-openai-api-key-here"' >> devcontainers/goodmem-dev/.env
-          echo 'ADD_API_KEY="your-goodmem-api-key-here"' >> devcontainers/goodmem-dev/.env
+          echo '# GoodMem Development Environment Configuration' > src/goodmem-dev/.env
+          echo '# Replace these with your actual API keys' >> src/goodmem-dev/.env
+          echo '' >> src/goodmem-dev/.env
+          echo 'OPENAI_API_KEY="your-openai-api-key-here"' >> src/goodmem-dev/.env
+          echo 'ADD_API_KEY="your-goodmem-api-key-here"' >> src/goodmem-dev/.env
 
       - name: Test environment configuration
         uses: devcontainers/ci@v0.3
         with:
-          configFile: devcontainers/goodmem-dev/devcontainer.json
+          configFile: src/goodmem-dev/devcontainer.json
           push: never
           runCmd: |
             python3 -c "
@@ -232,7 +232,7 @@ jobs:
             import os
             
             # Load environment variables
-            load_dotenv(dotenv_path='devcontainers/goodmem-dev/.env')
+            load_dotenv(dotenv_path='src/goodmem-dev/.env')
             
             # Check if template variables exist
             openai_key = os.getenv('OPENAI_API_KEY')
@@ -263,25 +263,25 @@ jobs:
 
       - name: Create .env file for testing
         run: |
-          echo '# GoodMem Development Environment Configuration' > devcontainers/goodmem-dev/.env
-          echo '# Replace these with your actual API keys' >> devcontainers/goodmem-dev/.env
-          echo '' >> devcontainers/goodmem-dev/.env
-          echo 'OPENAI_API_KEY="your-openai-api-key-here"' >> devcontainers/goodmem-dev/.env
-          echo 'ADD_API_KEY="your-goodmem-api-key-here"' >> devcontainers/goodmem-dev/.env
+          echo '# GoodMem Development Environment Configuration' > src/goodmem-dev/.env
+          echo '# Replace these with your actual API keys' >> src/goodmem-dev/.env
+          echo '' >> src/goodmem-dev/.env
+          echo 'OPENAI_API_KEY="your-openai-api-key-here"' >> src/goodmem-dev/.env
+          echo 'ADD_API_KEY="your-goodmem-api-key-here"' >> src/goodmem-dev/.env
 
       - name: Validate devcontainer.json
         run: |
           # Check if devcontainer.json is valid JSON
-          python3 -m json.tool devcontainers/goodmem-dev/devcontainer.json > /dev/null
+          python3 -m json.tool src/goodmem-dev/devcontainer.json > /dev/null
           echo "devcontainer.json is valid JSON"
 
       - name: Check required files
         run: |
           files=(
-            "devcontainers/goodmem-dev/devcontainer.json"
-            "devcontainers/goodmem-dev/Dockerfile" 
-            "devcontainers/goodmem-dev/.env"
-            "setup.sh"
+            "src/goodmem-dev/devcontainer.json"
+            "build/Dockerfile" 
+            "src/goodmem-dev/.env"
+            "build/setup.sh"
             ".gitignore"
           )
           
@@ -326,7 +326,7 @@ jobs:
       - name: Build and push Docker image
         uses: docker/build-push-action@v5
         with:
-          context: devcontainers/goodmem-dev/.devcontainer
-          file: devcontainers/goodmem-dev/.devcontainer/Dockerfile
+          context: build
+          file: build/Dockerfile
           push: true
           tags: ghcr.io/mariamahmad8/goodmem-container:latest
