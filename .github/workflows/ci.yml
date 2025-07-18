@@ -296,10 +296,10 @@ jobs:
 
       - name: Check setup script is executable
         run: |
-          if [ -x "setup.sh" ]; then
-            echo "setup.sh is executable"
+          if [ -x "build/setup.sh" ]; then
+            echo "build/setup.sh is executable"
           else
-            echo "setup.sh is not executable"
+            echo "build/setup.sh is not executable"
             exit 1
           fi
 
