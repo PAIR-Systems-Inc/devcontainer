@@ -302,3 +302,31 @@ jobs:
             echo "setup.sh is not executable"
             exit 1
           fi
+
+
+  publish-image:
+    name: Build and Publish Docker Image
+    runs-on: ubuntu-latest
+
+    permissions:
+      contents: read
+      packages: write
+
+    steps:
+      - name: Check out code
+        uses: actions/checkout@v4
+
+      - name: Login to GHCR
+        uses: docker/login-action@v3
+        with:
+          registry: ghcr.io
+          username: ${{ github.actor }}
+          password: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Build and push Docker image
+        uses: docker/build-push-action@v5
+        with:
+          context: devcontainers/goodmem-dev/.devcontainer
+          file: devcontainers/goodmem-dev/.devcontainer/Dockerfile
+          push: true
+          tags: ghcr.io/mariamahmad8/goodmem-container:latest
