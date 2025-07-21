@@ -1,31 +1,58 @@
-name: Release DevContainer
+# .github/workflows/release.yml
+name: Release Dev Container Image & Run Tests
 
 on:
   push:
-    tags: ['v*']
+    branches: [main]
+  workflow_dispatch:
 
 jobs:
-  publish:
+  build-and-push:
+    name: Build & Push Dev Container Image
     runs-on: ubuntu-latest
-    permissions:
-      packages: write
-      contents: write
-      pull-requests: write
 
     steps:
-    - uses: actions/checkout@v3
+      - name: Checkout code
+        uses: actions/checkout@v4
 
-    - name: Pre-build Container Image
-      uses: devcontainers/ci@v0.3
-      with:
-        imageName: ghcr.io/${{ github.repository_owner }}/goodmem-container
-        cacheFrom: ghcr.io/${{ github.repository_owner }}/goodmem-container
-        push: always
-        runCmd: ./build_and_run_tests.sh
+      - name: Log in to GitHub Container Registry
+        uses: docker/login-action@v3
+        with:
+          registry: ghcr.io
+          username: ${{ github.actor }}
+          password: ${{ secrets.GITHUB_TOKEN }}
 
-    - name: Publish Templates
-      uses: devcontainers/action@v1
-      with:
-        publish-templates: "true"
-        base-path-to-templates: "./src"
-        devcontainer-cli-version: "0.80.0"
+      - name: Set version from file
+        id: version
+        run: echo "VERSION=$(cat VERSION.txt)" >> $GITHUB_ENV
+
+      - name: Build image
+        run: |
+          docker build -t ghcr.io/${{ github.repository_owner }}/goodmem-container:${{ env.VERSION }} -f build/Dockerfile .
+
+      - name: Push image
+        run: |
+          docker push ghcr.io/${{ github.repository_owner }}/goodmem-container:${{ env.VERSION }}
+
+  test-devcontainer:
+    name: Test Dev Container Functionality
+    needs: build-and-push
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Create minimal project with devcontainer.json
+        run: |
+          mkdir test_project
+          cp src/goodmem-dev/devcontainer.json test_project/.devcontainer.json
+          echo '{"name": "test"}' > test_project/README.md
+
+      - name: Start container and run test suite
+        uses: devcontainers/ci@v0.3
+        with:
+          runCmd: |
+            chmod +x ./tests/run_all.sh
+            ./tests/run_all.sh
+          subFolder: test_project
