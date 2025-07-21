@@ -10,8 +10,6 @@ jobs:
   test:
     name: Test DevContainer Template
     runs-on: ubuntu-latest
-    env:
-      WORKSPACE: test-workspace
 
     steps:
       - name: Check out code
@@ -28,41 +26,32 @@ jobs:
           echo "=== src/goodmem-dev/ directory ==="
           ls -la src/goodmem-dev/
 
-      - name: Set up test workspace
+      - name: Create .env for testing
         run: |
-          mkdir -p $WORKSPACE/.devcontainer
-          cp src/goodmem-dev/.devcontainer.json $WORKSPACE/.devcontainer/devcontainer.json
-          cp build/Dockerfile $WORKSPACE/.devcontainer/
-          cp build/setup.sh $WORKSPACE/
-          echo 'OPENAI_API_KEY="test-key"' > $WORKSPACE/.env
-          echo 'ADD_API_KEY="test-key"' >> $WORKSPACE/.env
+          echo 'OPENAI_API_KEY="test-key"' > src/goodmem-dev/.env
+          echo 'ADD_API_KEY="test-key"' >> src/goodmem-dev/.env
 
-      - name: Validate devcontainer.json
-        run: |
-          python3 -m json.tool $WORKSPACE/.devcontainer/devcontainer.json
-
-      - name: Test DevContainer Build
+      - name: Test DevContainer Build and Language Runtimes
         uses: devcontainers/ci@v0.3
         with:
-          workspaceFolder: ${{ env.WORKSPACE }}
+          subFolder: src/goodmem-dev
+          configFile: src/goodmem-dev/.devcontainer.json
           push: never
           runCmd: |
+            echo "=== Testing Language Runtimes ==="
             python3 --version
             java -version
             dotnet --version
             go version
             node --version
+            pnpm --version
             echo "✅ All language runtimes working"
-
-      - name: Test Package Imports
-        uses: devcontainers/ci@v0.3
-        with:
-          workspaceFolder: ${{ env.WORKSPACE }}
-          push: never
-          runCmd: |
+            
+            echo "=== Testing Package Imports ==="
             python3 -c "
             import goodmem_client, openai, requests, psycopg2
             from goodmem_client.api import APIKeysApi
+            from dotenv import load_dotenv
             print('✅ All packages imported successfully')
             "
 
