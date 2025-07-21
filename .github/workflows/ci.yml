@@ -333,6 +333,7 @@ jobs:
   publish-image:
     name: Build and Publish Docker Image
     runs-on: ubuntu-latest
+    if: startsWith(github.ref, 'refs/tags/v')
 
     permissions:
       contents: read
@@ -354,8 +355,9 @@ jobs:
       - name: Build and push Docker image
         uses: docker/build-push-action@v5
         with:
-          context: .                     
+          context: .
           file: build/Dockerfile
           push: true
-          tags: ghcr.io/mariamahmad8/goodmem-container:latest
-
+          tags: |
+            ghcr.io/mariamahmad8/goodmem-container:latest
+            ghcr.io/mariamahmad8/goodmem-container:${{ github.ref_name }}
