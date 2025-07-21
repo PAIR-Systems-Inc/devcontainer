@@ -26,7 +26,7 @@
 
 ##### Updating Version Example:
 
-    -image": "ghcr.io/mariamahmad8/goodmem-container:1.0.11". 
+    image": "ghcr.io/mariamahmad8/goodmem-container:1.0.11". 
 
 - Open your .devcontainer.json, and find the line below
 - Update the version with the newest one. 
