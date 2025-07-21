@@ -333,7 +333,6 @@ jobs:
   publish-image:
     name: Build and Publish Docker Image
     runs-on: ubuntu-latest
-    if: startsWith(github.ref, 'refs/tags/v') || github.ref == 'refs/heads/main'
 
     permissions:
       contents: read
