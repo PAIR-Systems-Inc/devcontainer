@@ -339,12 +339,12 @@ jobs:
       contents: read
       packages: write
 
-    env:
-      VERSION: ${{ github.ref_type == 'tag' && github.ref_name || 'latest' }}
 
     steps:
       - name: Check out code
         uses: actions/checkout@v4
+        with:
+          path: .
 
       - name: Login to GHCR
         uses: docker/login-action@v3
@@ -359,6 +359,5 @@ jobs:
           context: .
           file: build/Dockerfile
           push: true
-          tags: |
-            ghcr.io/mariamahmad8/goodmem-container:${{ env.VERSION }}
+          tags: ghcr.io/mariamahmad8/goodmem-container:latest
 
