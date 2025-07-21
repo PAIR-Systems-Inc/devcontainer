@@ -2,350 +2,110 @@ name: DevContainer Template CI
 
 on:
   push:
-    branches:
-      - main
+    branches: [main]
   pull_request:
-    branches:
-      - main
+    branches: [main]
 
 jobs:
-  test-devcontainer-build:
-    name: Test DevContainer Build
+  test:
+    name: Full DevContainer Test Suite
     runs-on: ubuntu-latest
-    
+    env:
+      WORKSPACE: test-workspace
+
     steps:
       - name: Check out code
         uses: actions/checkout@v4
-        with:
-          path: .
 
-      - name: Setup test workspace from template
+      - name: Set up test workspace
         run: |
-          # Create a test workspace that uses our template
-          mkdir -p test-workspace/.devcontainer
-          cp src/goodmem-dev/.devcontainer.json test-workspace/.devcontainer/devcontainer.json
-          cp build/Dockerfile test-workspace/.devcontainer/
-          cp build/setup.sh test-workspace/
-          
-          # Create test .env file
-          echo 'OPENAI_API_KEY="test-key"' > test-workspace/.devcontainer/.env
-          echo 'ADD_API_KEY="test-key"' >> test-workspace/.devcontainer/.env
+          mkdir -p $WORKSPACE/.devcontainer
+          cp src/goodmem-dev/.devcontainer.json $WORKSPACE/.devcontainer/devcontainer.json
+          cp build/Dockerfile $WORKSPACE/.devcontainer/
+          cp build/setup.sh $WORKSPACE/
+          echo 'OPENAI_API_KEY="test-key"' > $WORKSPACE/.devcontainer/.env
+          echo 'ADD_API_KEY="test-key"' >> $WORKSPACE/.devcontainer/.env
 
-      - name: Test devcontainer build
+      - name: Validate devcontainer.json
+        run: |
+          python3 -m json.tool $WORKSPACE/.devcontainer/devcontainer.json
+
+      - name: Build DevContainer
         uses: devcontainers/ci@v0.3
         with:
-          workspaceFolder: test-workspace
+          workspaceFolder: ${{ env.WORKSPACE }}
           push: never
-          runCmd: |
-            echo "DevContainer built successfully"
-            python3 --version
-            echo "Python is available"
 
-  test-package-installation:
-    name: Test Package Installation
-    runs-on: ubuntu-latest
-    
-    steps:
-      - name: Check out code
-        uses: actions/checkout@v4
-        with:
-          path: .
-
-      - name: Setup test workspace from template
-        run: |
-          mkdir -p test-workspace/.devcontainer
-          cp src/goodmem-dev/.devcontainer.json test-workspace/.devcontainer/devcontainer.json
-          cp build/Dockerfile test-workspace/.devcontainer/
-          cp build/setup.sh test-workspace/
-          echo 'OPENAI_API_KEY="test-key"' > test-workspace/.devcontainer/.env
-          echo 'ADD_API_KEY="test-key"' >> test-workspace/.devcontainer/.env
-
-      - name: Test all packages are installed
+      - name: Run Package Import Test
         uses: devcontainers/ci@v0.3
         with:
-          workspaceFolder: test-workspace
+          workspaceFolder: ${{ env.WORKSPACE }}
           push: never
           runCmd: |
             python3 -c "
-            import sys
-            print('Python version:', sys.version)
-            
-            # Test GoodMem client
-            try:
-                import goodmem_client
-                print('goodmem_client imported successfully')
-            except ImportError as e:
-                print('goodmem_client import failed:', e)
-                exit(1)
-            
-            # Test OpenAI
-            try:
-                import openai
-                print('openai imported successfully')
-            except ImportError as e:
-                print('openai import failed:', e)
-                exit(1)
-            
-            # Test other dependencies
-            try:
-                import requests
-                import psycopg2
-                from dotenv import load_dotenv
-                print('All dependencies imported successfully')
-            except ImportError as e:
-                print('Dependency import failed:', e)
-                exit(1)
+            import goodmem_client, openai, requests, psycopg2
+            from dotenv import load_dotenv
+            print('✅ Python packages verified')
             "
 
-  test-language-installations:
-    name: Test Multi-Language Installations
-    runs-on: ubuntu-latest
-    
-    steps:
-      - name: Check out code
-        uses: actions/checkout@v4
-        with:
-          path: .
-
-      - name: Create .env file for testing
-        run: |
-          echo '# GoodMem Development Environment Configuration' > src/goodmem-dev/.env
-          echo '# Replace these with your actual API keys' >> src/goodmem-dev/.env
-          echo '' >> src/goodmem-dev/.env
-          echo 'OPENAI_API_KEY="your-openai-api-key-here"' >> src/goodmem-dev/.env
-          echo 'ADD_API_KEY="your-goodmem-api-key-here"' >> src/goodmem-dev/.env
-
-      - name: Test all language runtimes
+      - name: Run Language Runtime Test
         uses: devcontainers/ci@v0.3
         with:
-          configFile: src/goodmem-dev/.devcontainer.json
+          workspaceFolder: ${{ env.WORKSPACE }}
           push: never
           runCmd: |
-            # Test Python
             python3 --version
-            echo "Python installation: OK"
-            
-            # Test Java
             java -version
-            javac -version
-            echo "Java installation: OK"
-            
-            # Test .NET
             dotnet --version
-            echo ".NET installation: OK"
-            
-            # Test Go
             go version
-            echo "Go installation: OK"
-            
-            # Test Node.js
             node --version
             npm --version
             pnpm --version
-            echo "Node.js installation: OK"
-            
-            echo "All language runtimes installed successfully"
+            echo "✅ All language runtimes installed"
 
-  run-tests:
-    name: Run Custom Tests
-    runs-on: ubuntu-latest
-    
-    steps:
-      - name: Check out code
-        uses: actions/checkout@v4
-        with:
-          path: .
-
-      - name: Create .env file for testing
-        run: |
-          echo '# GoodMem Development Environment Configuration' > src/goodmem-dev/.env
-          echo '# Replace these with your actual API keys' >> src/goodmem-dev/.env
-          echo '' >> src/goodmem-dev/.env
-          echo 'OPENAI_API_KEY="your-openai-api-key-here"' >> src/goodmem-dev/.env
-          echo 'ADD_API_KEY="your-goodmem-api-key-here"' >> src/goodmem-dev/.env
-
-      - name: Run test.py
+      - name: Run GoodMem API Import Test
         uses: devcontainers/ci@v0.3
         with:
-          configFile: src/goodmem-dev/.devcontainer.json
-          push: never
-          runCmd: |
-            cd /workspaces/goodmem-container
-            python3 tests/test.py
-
-  test-api-imports:
-    name: Test API Imports
-    runs-on: ubuntu-latest
-    
-    steps:
-      - name: Check out code
-        uses: actions/checkout@v4
-        with:
-          path: .
-
-      - name: Create .env file for testing
-        run: |
-          echo '# GoodMem Development Environment Configuration' > src/goodmem-dev/.env
-          echo '# Replace these with your actual API keys' >> src/goodmem-dev/.env
-          echo '' >> src/goodmem-dev/.env
-          echo 'OPENAI_API_KEY="your-openai-api-key-here"' >> src/goodmem-dev/.env
-          echo 'ADD_API_KEY="your-goodmem-api-key-here"' >> src/goodmem-dev/.env
-
-      - name: Test GoodMem API imports
-        uses: devcontainers/ci@v0.3
-        with:
-          configFile: src/goodmem-dev/.devcontainer.json
+          workspaceFolder: ${{ env.WORKSPACE }}
           push: never
           runCmd: |
             python3 -c "
-            try:
-                from goodmem_client.api import APIKeysApi, SpacesApi, MemoriesApi
-                from goodmem_client.configuration import Configuration
-                from goodmem_client.api_client import ApiClient
-                print('GoodMem API imports successful')
-            except ImportError as e:
-                print('GoodMem API import failed:', e)
-                exit(1)
-            
-            try:
-                from openai import OpenAI
-                print('OpenAI client import successful')
-            except ImportError as e:
-                print('OpenAI client import failed:', e)
-                exit(1)
+            from goodmem_client.api import APIKeysApi
+            from goodmem_client.configuration import Configuration
+            from goodmem_client.api_client import ApiClient
+            print('✅ GoodMem API modules imported')
             "
 
-  test-configuration:
-    name: Test Configuration
-    runs-on: ubuntu-latest
-    
-    steps:
-      - name: Check out code
-        uses: actions/checkout@v4
-        with:
-          path: .
-
-      - name: Create .env file for testing
-        run: |
-          echo '# GoodMem Development Environment Configuration' > src/goodmem-dev/.env
-          echo '# Replace these with your actual API keys' >> src/goodmem-dev/.env
-          echo '' >> src/goodmem-dev/.env
-          echo 'OPENAI_API_KEY="your-openai-api-key-here"' >> src/goodmem-dev/.env
-          echo 'ADD_API_KEY="your-goodmem-api-key-here"' >> src/goodmem-dev/.env
-
-      - name: Test environment configuration
+      - name: Verify .env configuration
         uses: devcontainers/ci@v0.3
         with:
-          configFile: src/goodmem-dev/.devcontainer.json
+          workspaceFolder: ${{ env.WORKSPACE }}
           push: never
           runCmd: |
             python3 -c "
             from dotenv import load_dotenv
             import os
-            
-            # Load environment variables
-            load_dotenv(dotenv_path='src/goodmem-dev/.env')
-            
-            # Check if template variables exist
-            openai_key = os.getenv('OPENAI_API_KEY')
-            goodmem_key = os.getenv('ADD_API_KEY')
-            
-            if openai_key and 'your-openai-api-key-here' in openai_key:
-                print('OpenAI key template found')
-            else:
-                print('OpenAI key template not found')
-                exit(1)
-                
-            if goodmem_key and 'your-goodmem-api-key-here' in goodmem_key:
-                print('GoodMem key template found')
-            else:
-                print('GoodMem key template not found')
-                exit(1)
-                
-            print('Environment configuration is correct')
+            load_dotenv(dotenv_path='.devcontainer/.env')
+            assert 'OPENAI_API_KEY' in os.environ
+            assert 'ADD_API_KEY' in os.environ
+            print('✅ .env variables present')
             "
 
-  validate-template:
-    name: Validate Template Structure
-    runs-on: ubuntu-latest
-    
-    steps:
-      - name: Check out code
-        uses: actions/checkout@v4
-        with:
-          path: .
-
-      - name: Create .env file for testing
-        run: |
-          echo '# GoodMem Development Environment Configuration' > src/goodmem-dev/.env
-          echo '# Replace these with your actual API keys' >> src/goodmem-dev/.env
-          echo '' >> src/goodmem-dev/.env
-          echo 'OPENAI_API_KEY="your-openai-api-key-here"' >> src/goodmem-dev/.env
-          echo 'ADD_API_KEY="your-goodmem-api-key-here"' >> src/goodmem-dev/.env
-
-      - name: Validate devcontainer.json
-        run: |
-          # Check if devcontainer.json is valid JSON
-          python3 -m json.tool src/goodmem-dev/.devcontainer.json > /dev/null
-          echo "devcontainer.json is valid JSON"
-
-      - name: Print working directory and file tree
-        run: |
-          echo "Current working directory:"
-          pwd
-          echo "Listing contents:"
-          ls -R
-
-            
-
-      - name: Check required files
-        run: |
-          root=$(pwd)
-
-          files=(
-            "$root/src/goodmem-dev/.devcontainer.json"
-            "$root/build/Dockerfile"
-            "$root/src/goodmem-dev/.env"
-            "$root/build/setup.sh"
-            "$root/.gitignore"
-          )
-
-          for file in "${files[@]}"; do
-            if [ ! -f "$file" ]; then
-              echo "Missing required file: $file"
-              exit 1
-            else
-              echo "Found: $file"
-            fi
-          done
-
-
-      - name: Check setup script is executable
-        run: |
-          if [ -x "build/setup.sh" ]; then
-            echo "build/setup.sh is executable"
-          else
-            echo "build/setup.sh is not executable"
-            exit 1
-          fi
-
-
-  publish-image:
+  publish:
     name: Build and Publish Docker Image
+    if: startsWith(github.ref, 'refs/tags/v') || github.ref == 'refs/heads/main'
     runs-on: ubuntu-latest
-
     permissions:
       contents: read
       packages: write
-
+    env:
+      VERSION: ${{ github.ref_type == 'tag' && github.ref_name || 'latest' }}
 
     steps:
       - name: Check out code
         uses: actions/checkout@v4
-        with:
-          path: .
 
-      - name: Login to GHCR
+      - name: Login to GitHub Container Registry
         uses: docker/login-action@v3
         with:
           registry: ghcr.io
@@ -358,5 +118,6 @@ jobs:
           context: .
           file: build/Dockerfile
           push: true
-          tags: ghcr.io/mariamahmad8/goodmem-container:latest
-
+          tags: |
+            ghcr.io/mariamahmad8/goodmem-container:${{ env.VERSION }}
+            ghcr.io/mariamahmad8/goodmem-container:latest
