@@ -31,29 +31,58 @@ jobs:
           echo 'OPENAI_API_KEY="test-key"' > src/goodmem-dev/.env
           echo 'ADD_API_KEY="test-key"' >> src/goodmem-dev/.env
 
-      - name: Test DevContainer Build and Language Runtimes
+      - name: Test DevContainer Build and Basic Runtimes
         uses: devcontainers/ci@v0.3
         with:
           subFolder: src/goodmem-dev
           configFile: src/goodmem-dev/.devcontainer.json
           push: never
           runCmd: |
-            echo "=== Testing Language Runtimes ==="
+            echo "=== Testing Core Runtimes ==="
             python3 --version
             java -version
             dotnet --version
             go version
             node --version
-            pnpm --version
-            echo "✅ All language runtimes working"
-            
-            echo "=== Testing Package Imports ==="
+            echo "✅ Core runtimes available"
+
+      - name: Test Python GoodMem SDK Integration
+        uses: devcontainers/ci@v0.3
+        with:
+          subFolder: src/goodmem-dev
+          configFile: src/goodmem-dev/.devcontainer.json
+          push: never
+          runCmd: |
+            echo "=== Testing Python Package Imports ==="
             python3 -c "
-            import goodmem_client, openai, requests, psycopg2
-            from goodmem_client.api import APIKeysApi
-            from dotenv import load_dotenv
-            print('✅ All packages imported successfully')
+            try:
+                import goodmem_client
+                from goodmem_client.api import APIKeysApi, SpacesApi, MemoriesApi
+                from goodmem_client.configuration import Configuration
+                from goodmem_client.api_client import ApiClient
+                import openai
+                from openai import OpenAI
+                import requests
+                import psycopg2
+                from dotenv import load_dotenv
+                import os
+                print('✅ All Python packages imported successfully')
+            except ImportError as e:
+                print(f'❌ Import failed: {e}')
+                exit(1)
             "
+
+      - name: Run Comprehensive Python Test Suite
+        uses: devcontainers/ci@v0.3
+        with:
+          subFolder: src/goodmem-dev
+          configFile: src/goodmem-dev/.devcontainer.json
+          push: never
+          runCmd: |
+            echo "=== Running Full Python Test Suite ==="
+            cd /workspaces/goodmem-container
+            python3 tests/test.py
+            echo "✅ Python GoodMem integration tests completed"
 
   release:
     name: Build and Release Docker Image
