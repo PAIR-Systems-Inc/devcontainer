@@ -22,3 +22,10 @@
 - Paste ghcr.io/mariamahmad8/templates/goodmem-dev as your template
 - Accept default settings or customize as needed
 - Reopen in container when promt
+
+
+##### Updating Version Example:
+- Open your .devcontainer.json, and find the line below
+    -"image": "ghcr.io/mariamahmad8/goodmem-container:1.0.11". 
+- Update the version with the newest one. 
+- Save the changes and rebuild the container. You are now working with the most up to date version of the Goodmem Devcontainer. 
