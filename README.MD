@@ -15,10 +15,10 @@
 - Offline-friendly: Once pulled, you don’t need the internet to re-use the environments 
 
 ##### How to use: 
--Open your project in VS Code
--Run Ctrl + Shift + P (or Cmd + Shift + P on Mac)
--Choose “Dev Containers: Add Dev Container Configuration Files”
--Select “From a predefined template”
--Paste ghcr.io/mariamahmad8/templates/goodmem-dev as your template
--Accept default settings or customize as needed
--Reopen in container when promt
+- Open your project in VS Code
+- Run Ctrl + Shift + P (or Cmd + Shift + P on Mac)
+- Choose “Dev Containers: Add Dev Container Configuration Files”
+- Select “From a predefined template”
+- Paste ghcr.io/mariamahmad8/templates/goodmem-dev as your template
+- Accept default settings or customize as needed
+- Reopen in container when promt
