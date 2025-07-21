@@ -1,0 +1,34 @@
+{
+  "name": "GoodMem DevContainer",
+  "image": "ghcr.io/mariamahmad8/goodmem-container:1.0.9",
+  "customizations": {
+    "vscode": {
+      "extensions": [
+        "ms-python.python",
+        "ms-python.vscode-pylance",
+        "ms-python.black-formatter",
+        "ms-python.isort",
+        "ms-vscode.vscode-json",
+        "ms-vscode.rest-client",
+        "redhat.java",
+        "vscjava.vscode-java-pack",
+        "vscjava.vscode-java-debug",
+        "vscjava.vscode-maven",
+        "vscjava.vscode-java-test",
+        "ms-dotnettools.csharp",
+        "ms-dotnettools.vscode-dotnet-runtime",
+        "ms-dotnettools.csdevkit",
+        "golang.go",
+        "ms-vscode.vscode-typescript-next",
+        "ms-vscode.vscode-eslint",
+        "esbenp.prettier-vscode",
+        "bradlc.vscode-tailwindcss",
+        "ms-vscode.vscode-node-azure-pack",
+        "GitLab.gitlab-workflow",
+        "ms-vscode.vscode-github-pullrequest",
+        "eamodio.gitlens"
+      ]
+    }
+  },
+  "remoteUser": "vscode"
+}

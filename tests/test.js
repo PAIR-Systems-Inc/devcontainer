@@ -6,7 +6,7 @@ let API_KEY;
 
 function loadEnvironment() {
     try {
-        const envContent = fs.readFileSync('.devcontainer/.env', 'utf8');
+        const envContent = fs.readFileSync('.env', 'utf8');
         const lines = envContent.split('\n');
         
         for (const line of lines) {

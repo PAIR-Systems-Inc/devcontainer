@@ -21,7 +21,7 @@ jobs:
         run: |
           # Create a test workspace that uses our template
           mkdir -p test-workspace/.devcontainer
-          cp src/goodmem-dev/devcontainer.json test-workspace/.devcontainer/
+          cp src/goodmem-dev/.devcontainer.json test-workspace/.devcontainer/devcontainer.json
           cp build/Dockerfile test-workspace/.devcontainer/
           cp build/setup.sh test-workspace/
           
@@ -50,7 +50,7 @@ jobs:
       - name: Setup test workspace from template
         run: |
           mkdir -p test-workspace/.devcontainer
-          cp src/goodmem-dev/devcontainer.json test-workspace/.devcontainer/
+          cp src/goodmem-dev/.devcontainer.json test-workspace/.devcontainer/devcontainer.json
           cp build/Dockerfile test-workspace/.devcontainer/
           cp build/setup.sh test-workspace/
           echo 'OPENAI_API_KEY="test-key"' > test-workspace/.devcontainer/.env
@@ -112,7 +112,7 @@ jobs:
       - name: Test all language runtimes
         uses: devcontainers/ci@v0.3
         with:
-          configFile: src/goodmem-dev/devcontainer.json
+          configFile: src/goodmem-dev/.devcontainer.json
           push: never
           runCmd: |
             # Test Python
@@ -159,7 +159,7 @@ jobs:
       - name: Run test.py
         uses: devcontainers/ci@v0.3
         with:
-          configFile: src/goodmem-dev/devcontainer.json
+          configFile: src/goodmem-dev/.devcontainer.json
           push: never
           runCmd: |
             cd /workspaces/goodmem-container
@@ -184,7 +184,7 @@ jobs:
       - name: Test GoodMem API imports
         uses: devcontainers/ci@v0.3
         with:
-          configFile: src/goodmem-dev/devcontainer.json
+          configFile: src/goodmem-dev/.devcontainer.json
           push: never
           runCmd: |
             python3 -c "
@@ -224,7 +224,7 @@ jobs:
       - name: Test environment configuration
         uses: devcontainers/ci@v0.3
         with:
-          configFile: src/goodmem-dev/devcontainer.json
+          configFile: src/goodmem-dev/.devcontainer.json
           push: never
           runCmd: |
             python3 -c "
@@ -272,13 +272,13 @@ jobs:
       - name: Validate devcontainer.json
         run: |
           # Check if devcontainer.json is valid JSON
-          python3 -m json.tool src/goodmem-dev/devcontainer.json > /dev/null
+          python3 -m json.tool src/goodmem-dev/.devcontainer.json > /dev/null
           echo "devcontainer.json is valid JSON"
 
       - name: Check required files
         run: |
           files=(
-            "src/goodmem-dev/devcontainer.json"
+            "src/goodmem-dev/.devcontainer.json"
             "build/Dockerfile" 
             "src/goodmem-dev/.env"
             "build/setup.sh"

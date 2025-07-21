@@ -1,10 +1,9 @@
 {
   "id": "goodmem-dev",
-  "version": "1.0.4",
+  "version": "1.0.10",
   "name": "GoodMem Dev Container",
   "description": "Prebuilt devcontainer with full multi-language SDK setup.",
   "platforms": ["python", "java", "go", "dotnet", "node"],
   "publisher": "mariamahmad8",
-  "optionalPaths": [],
-  "keywords": ["goodmem", "sdk", "ai", "multi-language"]
+  "optionalPaths": []
 }
