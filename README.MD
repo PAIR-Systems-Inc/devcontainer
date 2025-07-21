@@ -26,8 +26,11 @@
 
 ##### Updating Version Example:
 
-    image": "ghcr.io/mariamahmad8/goodmem-container:1.0.11". 
+    image": "ghcr.io/mariamahmad8/goodmem-container:1.0.11"
 
-- Open your .devcontainer.json, and find the line below
+- Open your .devcontainer.json, and find the line above
 - Update the version with the newest one. 
+
+    image": "ghcr.io/mariamahmad8/goodmem-container:1.0.12"
+
 - Save the changes and rebuild the container. You are now working with the most up to date version of the Goodmem Devcontainer. 
