@@ -1,0 +1,31 @@
+name: Release DevContainer
+
+on:
+  push:
+    tags: ['v*']
+
+jobs:
+  publish:
+    runs-on: ubuntu-latest
+    permissions:
+      packages: write
+      contents: write
+      pull-requests: write
+
+    steps:
+    - uses: actions/checkout@v3
+
+    - name: Pre-build Container Image
+      uses: devcontainers/ci@v0.3
+      with:
+        imageName: ghcr.io/${{ github.repository_owner }}/goodmem-container
+        cacheFrom: ghcr.io/${{ github.repository_owner }}/goodmem-container
+        push: always
+        runCmd: ./build_and_run_tests.sh
+
+    - name: Publish Templates
+      uses: devcontainers/action@v1
+      with:
+        publish-templates: "true"
+        base-path-to-templates: "./src"
+        devcontainer-cli-version: "0.80.0"
