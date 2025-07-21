@@ -275,16 +275,27 @@ jobs:
           python3 -m json.tool src/goodmem-dev/.devcontainer.json > /dev/null
           echo "devcontainer.json is valid JSON"
 
+      - name: Print working directory and file tree
+        run: |
+          echo "Current working directory:"
+          pwd
+          echo "Listing contents:"
+          ls -R
+
+            
+
       - name: Check required files
         run: |
+          root=$(pwd)
+
           files=(
-            "src/goodmem-dev/.devcontainer.json"
-            "build/Dockerfile" 
-            "src/goodmem-dev/.env"
-            "build/setup.sh"
-            ".gitignore"
+            "$root/src/goodmem-dev/.devcontainer.json"
+            "$root/build/Dockerfile"
+            "$root/src/goodmem-dev/.env"
+            "$root/build/setup.sh"
+            "$root/.gitignore"
           )
-          
+
           for file in "${files[@]}"; do
             if [ ! -f "$file" ]; then
               echo "Missing required file: $file"
@@ -293,6 +304,7 @@ jobs:
               echo "Found: $file"
             fi
           done
+
 
       - name: Check setup script is executable
         run: |
