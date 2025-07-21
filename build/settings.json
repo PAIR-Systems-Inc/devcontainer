@@ -1,0 +1,28 @@
+{
+  "python.defaultInterpreterPath": "/usr/bin/python3",
+  "python.formatting.provider": "black",
+  "python.linting.enabled": true,
+  "python.linting.pylintEnabled": true,
+  "java.home": "/usr/lib/jvm/java-17-openjdk-amd64",
+  "java.configuration.runtimes": [
+    {
+      "name": "JavaSE-17",
+      "path": "/usr/lib/jvm/java-17-openjdk-amd64"
+    }
+  ],
+  "dotnet.defaultSolution": "disable",
+  "omnisharp.enableRoslynAnalyzers": true,
+  "go.toolsManagement.checkForUpdates": "local",
+  "go.useLanguageServer": true,
+  "go.gopath": "/home/vscode/go",
+  "go.goroot": "/usr/local/go",
+  "typescript.preferences.quoteStyle": "double",
+  "javascript.preferences.quoteStyle": "double",
+  "editor.formatOnSave": true,
+  "editor.codeActionsOnSave": {
+    "source.organizeImports": "explicit"
+  },
+  "files.associations": {
+    "*.env": "dotenv"
+  }
+}

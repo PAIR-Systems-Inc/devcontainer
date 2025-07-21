@@ -9,7 +9,6 @@ __pycache__/
 *.pyo
 *.pyd
 .Python
-build/
 develop-eggs/
 dist/
 downloads/
