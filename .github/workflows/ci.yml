@@ -326,7 +326,8 @@ jobs:
       - name: Build and push Docker image
         uses: docker/build-push-action@v5
         with:
-          context: build
+          context: .                     
           file: build/Dockerfile
           push: true
           tags: ghcr.io/mariamahmad8/goodmem-container:latest
+
