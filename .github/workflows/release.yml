@@ -17,6 +17,17 @@ jobs:
       - name: Check out code
         uses: actions/checkout@v4
 
+      - name: Debug - Show file structure
+        run: |
+          echo "=== Current directory ==="
+          pwd
+          echo "=== Root files ==="
+          ls -la
+          echo "=== build/ directory ==="
+          ls -la build/
+          echo "=== src/goodmem-dev/ directory ==="
+          ls -la src/goodmem-dev/
+
       - name: Set up test workspace
         run: |
           mkdir -p $WORKSPACE/.devcontainer
