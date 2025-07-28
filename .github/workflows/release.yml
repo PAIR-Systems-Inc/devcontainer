@@ -44,7 +44,7 @@ jobs:
             dotnet --version
             go version
             node --version
-            echo "✅ Core runtimes available"
+            echo "Core runtimes available"
 
       - name: Test Python GoodMem SDK Integration
         uses: devcontainers/ci@v0.3
@@ -66,9 +66,9 @@ jobs:
                 import psycopg2
                 from dotenv import load_dotenv
                 import os
-                print('✅ All Python packages imported successfully')
+                print('All Python packages imported successfully')
             except ImportError as e:
-                print(f'❌ Import failed: {e}')
+                print(f'Import failed: {e}')
                 exit(1)
             "
 
@@ -82,7 +82,7 @@ jobs:
             echo "=== Running Full Python Test Suite ==="
             cd /workspaces/goodmem-container
             python3 tests/test.py
-            echo "✅ Python GoodMem integration tests completed"
+            echo "Python GoodMem integration tests completed"
 
   release:
     name: Build and Release Docker Image
