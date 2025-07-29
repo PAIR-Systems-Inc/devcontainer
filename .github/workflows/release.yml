@@ -114,5 +114,5 @@ jobs:
           file: build/Dockerfile
           push: true
           tags: |
-            ghcr.io/PAIR-Systems-Inc/devcontainer:${{ steps.version.outputs.VERSION }}
-            ghcr.io/PAIR-Systems-Inc/devcontainer:latest
+            ghcr.io/pair-systems-inc/devcontainer:${{ steps.version.outputs.VERSION }}
+            ghcr.io/pair-systems-inc/devcontainer:latest
