@@ -19,7 +19,7 @@
 - Run Ctrl + Shift + P (or Cmd + Shift + P on Mac)
 - Choose “Dev Containers: Add Dev Container Configuration Files”
 - Select “From a predefined template”
-- Paste ghcr.io/mariamahmad8/templates/goodmem-dev as your template
+- Paste ghcr.io/PAIR-Systems-Inc/templates/goodmem-dev as your template
 - Accept default settings or customize as needed
 - Reopen in container when promt
 
@@ -27,14 +27,14 @@
 ##### Updating Version Example:
 
 ```json
-"image": "ghcr.io/mariamahmad8/goodmem-container:1.0.11"
+"image": "ghcr.io/PAIR-Systems-Inc/devcontainer:1.0.11"
 ```
 
 - Open your .devcontainer.json, and find the line above
 - Update the version with the newest one. 
 
 ```json
-"image": "ghcr.io/mariamahmad8/goodmem-container:1.0.12"
+"image": "ghcr.io/PAIR-Systems-Inc/devcontainer:1.0.12"
 ```
 
 - Save the changes and rebuild the container. You are now working with the most up to date version of the Goodmem Devcontainer. 
