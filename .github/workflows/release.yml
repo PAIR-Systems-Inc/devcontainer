@@ -80,7 +80,7 @@ jobs:
           push: never
           runCmd: |
             echo "=== Running Full Python Test Suite ==="
-            cd /workspaces/goodmem-container
+            cd /workspaces/devcontainer
             python3 tests/test.py
             echo "Python GoodMem integration tests completed"
 
@@ -114,5 +114,5 @@ jobs:
           file: build/Dockerfile
           push: true
           tags: |
-            ghcr.io/mariamahmad8/goodmem-container:${{ steps.version.outputs.VERSION }}
-            ghcr.io/mariamahmad8/goodmem-container:latest
+            ghcr.io/PAIR-Systems-Inc/devcontainer:${{ steps.version.outputs.VERSION }}
+            ghcr.io/PAIR-Systems-Inc/devcontainer:latest
