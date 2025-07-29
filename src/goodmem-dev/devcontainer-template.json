@@ -1,6 +1,6 @@
 {
   "id": "goodmem-dev",
-  "version": "1.0.11",
+  "version": "1.0.18",
   "name": "GoodMem Dev Container",
   "description": "Prebuilt devcontainer with full multi-language SDK setup.",
   "platforms": [
