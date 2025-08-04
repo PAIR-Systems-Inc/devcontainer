@@ -113,13 +113,19 @@ jobs:
           username: ${{ github.actor }}
           password: ${{ secrets.GITHUB_TOKEN }}
 
+      - name: Extract version from tag
+        id: version
+        run: echo "version=${GITHUB_REF#refs/tags/v}" >> $GITHUB_OUTPUT
+
       - name: Build and push Docker image
         uses: docker/build-push-action@v5
         with:
           context: ./src/goodmem-devcontainer/.devcontainer
           file: ./src/goodmem-devcontainer/.devcontainer/Dockerfile
           push: true
-          tags: ghcr.io/pair-systems-inc/goodmem-dev:latest
+          tags: |
+            ghcr.io/pair-systems-inc/goodmem-dev:latest
+            ghcr.io/pair-systems-inc/goodmem-dev:${{ steps.version.outputs.version }}
           cache-from: type=gha
           cache-to: type=gha,mode=max
 
