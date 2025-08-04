@@ -78,5 +78,6 @@
     "source=goodmem-postgres-data,target=/var/lib/postgresql/data,type=volume",
     "source=goodmem-docker-data,target=/var/lib/docker,type=volume"
   ],
+  "postCreateCommand": "/setup.sh",
   "remoteUser": "vscode"
 }
