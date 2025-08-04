@@ -83,25 +83,22 @@ case $choice in
         ;;
 esac
 
-echo "Installing GoodMem server on your HOST machine..."
-echo "   This ensures persistence even if devcontainer is deleted"
+echo "Installing GoodMem server with persistent data..."
+echo "   Your data will persist across container rebuilds"
 echo ""
 
-# Check if GoodMem is already running on host
-if curl -s --max-time 5 http://host.docker.internal:8080/v1/system/health > /dev/null 2>&1; then
-    echo "GoodMem server already running on host machine!"
+# Check if GoodMem is already running
+if curl -s --max-time 5 http://localhost:8080/v1/system/health > /dev/null 2>&1; then
+    echo "✅ GoodMem server already running!"
     echo "   Using existing installation at http://localhost:8080"
 else
-    echo "Installing GoodMem server on HOST machine..."
+    echo "📦 Installing GoodMem server with persistent volumes..."
     
-    # Install GoodMem server on HOST machine (not inside container)
-    # This runs the installer on the host's Docker engine
-
-    # Create persistent volumes on host
+    # Create persistent volumes for data persistence
     docker volume create goodmem_data || true
     docker volume create goodmem_pgdata || true
     
-    # Install GoodMem with volume mounts for persistence
+    # Install GoodMem server in debug mode without OpenAI setup (unattended)
     curl -s https://get.goodmem.ai | bash -s -- --debug-install --no-openai-embedder-registration
 fi
 
