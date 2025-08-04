@@ -68,7 +68,7 @@ RUN useradd -m -s /bin/bash vscode && \
 RUN mkdir -p /workspace && chown -R vscode:vscode /workspace
 
 # Copy and run setup script
-COPY ../../build/setup.sh /setup.sh
+COPY setup.sh /setup.sh
 RUN chmod +x /setup.sh && /setup.sh
 
 
