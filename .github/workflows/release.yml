@@ -111,3 +111,4 @@ jobs:
         with:
           publish-templates: true
           base-path-to-templates: ./src
+          generate-docs: true
