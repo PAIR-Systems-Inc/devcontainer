@@ -60,6 +60,22 @@
       }
     }
   },
+  "forwardPorts": [8080, 9090, 5432, 8001],
+  "portsAttributes": {
+    "8080": {
+      "label": "GoodMem REST API",
+      "onAutoForward": "notify"
+    },
+    "9090": {
+      "label": "GoodMem gRPC API"
+    },
+    "5432": {
+      "label": "PostgreSQL Database"
+    },
+    "8001": {
+      "label": "JobRunr Dashboard"
+    }
+  },
   "mounts": [
     "source=goodmem-postgres-data,target=/var/lib/postgresql/data,type=volume",
     "source=goodmem-docker-data,target=/var/lib/docker,type=volume"
