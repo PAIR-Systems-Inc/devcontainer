@@ -26,6 +26,13 @@ jobs:
           echo "=== src/goodmem-devcontainer/.devcontainer/ directory ==="
           ls -la src/goodmem-devcontainer/.devcontainer/
 
+      - name: Log in to GitHub Container Registry
+        uses: docker/login-action@v3
+        with:
+          registry: ghcr.io
+          username: ${{ github.actor }}
+          password: ${{ secrets.GITHUB_TOKEN }}
+
       - name: Create .env for testing
         run: |
           echo 'OPENAI_API_KEY="test-key"' > .env
