@@ -30,58 +30,68 @@ EOF
     echo ""
 fi
 
-# Interactive prompt for server setup
-echo "GoodMem Server Setup"
-echo ""
-echo "Do you want to:"
-echo "  1) Connect to an existing GoodMem server"
-echo "  2) Install a local GoodMem server in this container"
-echo ""
-read -p "Enter your choice (1 or 2): " choice
-
-case $choice in
-    1)
-        echo ""
-        read -p "Enter your GoodMem server URL (e.g., http://my-server.com:8080): " server_url
-        
-        if [ -n "$server_url" ]; then
-            echo "Testing connection to: $server_url"
+# Check if running in interactive terminal
+if [ -t 0 ]; then
+    # Interactive mode - prompt user
+    echo "GoodMem Server Setup"
+    echo ""
+    echo "Do you want to:"
+    echo "  1) Connect to an existing GoodMem server"
+    echo "  2) Install a local GoodMem server in this container"
+    echo ""
+    read -p "Enter your choice (1 or 2): " choice
+    
+    case $choice in
+        1)
+            echo ""
+            read -p "Enter your GoodMem server URL (e.g., http://my-server.com:8080): " server_url
             
-            if curl -s --max-time 10 "$server_url/v1/system/health" > /dev/null 2>&1; then
-                echo "Connected to existing GoodMem server!"
+            if [ -n "$server_url" ]; then
+                echo "Testing connection to: $server_url"
                 
-                # Update .env file with the server URL
-                sed -i "s|GOODMEM_SERVER_URL=.*|GOODMEM_SERVER_URL=$server_url|" "$ENV_FILE"
-                
-                echo ""
-                echo "Configuration updated:"
-                echo "  • Server URL: $server_url"
-                echo "  • Config file: $ENV_FILE"
-                echo ""
-                echo "Getting Started:"
-                echo "  1. Your server is ready to use"
-                echo "  2. Update API keys in .env file as needed"
-                echo "  3. Use the pre-configured client libraries"
-                echo ""
-                echo "Setup Complete..."
-                exit 0
-            else
-                echo "Cannot connect to $server_url"
-                echo "   Please check the URL and try again"
-                echo "   Falling back to local installation..."
-                echo ""
+                if curl -s --max-time 10 "$server_url/v1/system/health" > /dev/null 2>&1; then
+                    echo "Connected to existing GoodMem server!"
+                    
+                    # Update .env file with the server URL
+                    sed -i "s|GOODMEM_SERVER_URL=.*|GOODMEM_SERVER_URL=$server_url|" "$ENV_FILE"
+                    
+                    echo ""
+                    echo "Configuration updated:"
+                    echo "  • Server URL: $server_url"
+                    echo "  • Config file: $ENV_FILE"
+                    echo ""
+                    echo "Getting Started:"
+                    echo "  1. Your server is ready to use"
+                    echo "  2. Update API keys in .env file as needed"
+                    echo "  3. Use the pre-configured client libraries"
+                    echo ""
+                    echo "Setup Complete..."
+                    exit 0
+                else
+                    echo "Cannot connect to $server_url"
+                    echo "   Please check the URL and try again"
+                    echo "   Falling back to local installation..."
+                    echo ""
+                fi
             fi
-        fi
-        ;;
-    2)
-        echo ""
-        echo "Installing local server..."
-        ;;
-    *)
-        echo ""
-        echo "Invalid choice. Installing local server by default..."
-        ;;
-esac
+            ;;
+        2)
+            echo ""
+            echo "Installing local server..."
+            ;;
+        *)
+            echo ""
+            echo "Invalid choice. Installing local server by default..."
+            ;;
+    esac
+else
+    # Non-interactive mode (automated builds) - default to local installation
+    echo "GoodMem Server Setup (Non-interactive mode)"
+    echo ""
+    echo "Automatically installing local GoodMem server..."
+    echo "   You can later configure to connect to existing servers via .env file"
+    echo ""
+fi
 
 echo "Installing GoodMem server with persistent data..."
 echo "   Your data will persist across container rebuilds"
