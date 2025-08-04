@@ -67,12 +67,6 @@ RUN useradd -m -s /bin/bash vscode && \
 # Create workspace
 RUN mkdir -p /workspace && chown -R vscode:vscode /workspace
 
-# Copy setup script (will be run as postCreateCommand)
-COPY setup.sh /setup.sh
-RUN chmod +x /setup.sh
-
-
-
 # Ensure permissions are correct
 RUN chown -R vscode:vscode /home/vscode
 
