@@ -68,13 +68,13 @@ RUN useradd -m -s /bin/bash vscode && \
 RUN mkdir -p /workspace && chown -R vscode:vscode /workspace
 
 # Copy and run setup script
-COPY build/setup.sh /setup.sh
+COPY ../../build/setup.sh /setup.sh
 RUN chmod +x /setup.sh && /setup.sh
 
 
 # Install VS Code settings
 RUN mkdir -p /home/vscode/.vscode-server/data/Machine
-COPY build/settings.json /home/vscode/.vscode-server/data/Machine/settings.json
+COPY ../../build/settings.json /home/vscode/.vscode-server/data/Machine/settings.json
 
 # Ensure permissions are correct
 RUN chown -R vscode:vscode /home/vscode
