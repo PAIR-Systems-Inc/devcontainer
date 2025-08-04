@@ -1,6 +1,6 @@
 {
   "name": "GoodMem DevContainer",
-  "image": "ghcr.io/pair-systems-inc/goodmem-dev:0.4.2",
+  "image": "ghcr.io/pair-systems-inc/goodmem-dev:latest",
   "customizations": {
     "vscode": {
       "extensions": [
