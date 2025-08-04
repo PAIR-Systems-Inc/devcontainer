@@ -23,19 +23,19 @@ jobs:
           ls -la
           echo "=== build/ directory ==="
           ls -la build/
-          echo "=== src/goodmem-dev/ directory ==="
-          ls -la src/goodmem-dev/
+          echo "=== src/.devcontainer/ directory ==="
+          ls -la src/.devcontainer/
 
       - name: Create .env for testing
         run: |
-          echo 'OPENAI_API_KEY="test-key"' > src/goodmem-dev/.env
-          echo 'ADD_API_KEY="test-key"' >> src/goodmem-dev/.env
+          echo 'OPENAI_API_KEY="test-key"' > .env
+          echo 'ADD_API_KEY="test-key"' >> .env
 
       - name: Test DevContainer Build and Basic Runtimes
         uses: devcontainers/ci@v0.3
         with:
-          subFolder: src/goodmem-dev
-          configFile: src/goodmem-dev/.devcontainer.json
+          subFolder: src
+          configFile: src/.devcontainer/devcontainer.json
           push: never
           runCmd: |
             echo "=== Testing Core Runtimes ==="
@@ -49,8 +49,8 @@ jobs:
       - name: Test Python GoodMem SDK Integration
         uses: devcontainers/ci@v0.3
         with:
-          subFolder: src/goodmem-dev
-          configFile: src/goodmem-dev/.devcontainer.json
+          subFolder: src
+          configFile: src/.devcontainer/devcontainer.json
           push: never
           runCmd: |
             echo "=== Testing Python Package Imports ==="
@@ -75,8 +75,8 @@ jobs:
       - name: Run Comprehensive Python Test Suite
         uses: devcontainers/ci@v0.3
         with:
-          subFolder: src/goodmem-dev
-          configFile: src/goodmem-dev/.devcontainer.json
+          subFolder: src
+          configFile: src/.devcontainer/devcontainer.json
           push: never
           runCmd: |
             echo "=== Running Full Python Test Suite ==="
@@ -111,7 +111,7 @@ jobs:
         uses: docker/build-push-action@v5
         with:
           context: .
-          file: build/Dockerfile
+          file: src/.devcontainer/Dockerfile
           push: true
           tags: |
             ghcr.io/pair-systems-inc/devcontainer:${{ steps.version.outputs.VERSION }}
