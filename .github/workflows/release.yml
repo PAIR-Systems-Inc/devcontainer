@@ -21,8 +21,8 @@ jobs:
           pwd
           echo "=== Root files ==="
           ls -la
-          echo "=== build/ directory ==="
-          ls -la build/
+          echo "=== src/ directory ==="
+          ls -la src/
           echo "=== src/goodmem-devcontainer/.devcontainer/ directory ==="
           ls -la src/goodmem-devcontainer/.devcontainer/
 
