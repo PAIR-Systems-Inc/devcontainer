@@ -3,7 +3,7 @@
 
   // Build locally from your Dockerfile; fallback to GHCR if you choose
   "build": {
-    "dockerfile": "../Dockerfile",
+    "dockerfile": "Dockerfile",
     "context": ".."
   },
   "image": "ghcr.io/pair-systems-inc/goodmem-dev:latest",
