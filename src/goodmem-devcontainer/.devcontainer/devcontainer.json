@@ -71,9 +71,9 @@
   ],
 
   "mounts": [
-    // bind-mount host Docker socket so goodmem installer can start containers
+    // Bind host Docker socket so the installer can start containers
     "source=/var/run/docker.sock,target=/var/run/docker.sock,type=bind",
-    // your existing volumes
+    // Your existing volumes
     "source=goodmem-postgres-data,target=/var/lib/postgresql/data,type=volume",
     "source=goodmem-docker-data,target=/var/lib/docker,type=volume"
   ],
@@ -96,11 +96,9 @@
     }
   },
 
-  // no-op at creation
-  "postCreateCommand": "echo '✅ Dev container ready; installer will run on first attach.'",
+  // No-op at creation
+  "postCreateCommand": "echo '✅ Dev container created; run setup on attach.'",
 
-  // run the full one-liner installer interactively (as root via sudo) on first attach
-  "postAttachCommand": "bash -i -c 'if [ \"$SKIP_POSTATTACH\" != \"true\" ]; then sudo curl -s https://get.goodmem.ai | bash; fi'",
-
-  "remoteUser": "vscode"
+  // Interactive installer fires once on first attach (as root)
+  "postAttachCommand": "bash -i -c 'if [ \"$SKIP_POSTATTACH\" != \"true\" ]; then curl -s https://get.goodmem.ai | bash; fi'"
 }
