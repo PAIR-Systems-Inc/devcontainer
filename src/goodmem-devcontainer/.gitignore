@@ -1,3 +1,3 @@
 # DevContainer internal files - users don't need these
-.devcontainer/Dockerfile
-.devcontainer/setup.sh
+Dockerfile
+setup.sh
