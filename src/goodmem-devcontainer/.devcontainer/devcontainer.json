@@ -58,6 +58,13 @@
       }
     }
   },
+  "runArgs": [
+    "--privileged"
+  ],
+  "mounts": [
+    "source=goodmem-postgres-data,target=/var/lib/postgresql/data,type=volume",
+    "source=goodmem-docker-data,target=/var/lib/docker,type=volume"
+  ],
   "forwardPorts": [8080, 9090, 5432, 8001],
   "portsAttributes": {
     "8080": {
@@ -74,10 +81,6 @@
       "label": "JobRunr Dashboard"
     }
   },
-  "mounts": [
-    "source=goodmem-postgres-data,target=/var/lib/postgresql/data,type=volume",
-    "source=goodmem-docker-data,target=/var/lib/docker,type=volume"
-  ],
-  "postCreateCommand": "bash -c 'if [ \"$SKIP_POSTCREATE\" != \"true\" ]; then export USER=vscode && curl -s https://get.goodmem.ai | bash; else echo \"Skipping GoodMem installation (CI mode)\"; fi'",
+  "postCreateCommand": "bash -c 'if [ \"$SKIP_POSTCREATE\" != \"true\" ]; then export USER=$(whoami) && curl -s https://get.goodmem.ai | bash; else echo \"Skipping GoodMem installation (CI mode)\"; fi'",
   "remoteUser": "vscode"
 }
