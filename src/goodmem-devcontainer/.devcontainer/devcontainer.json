@@ -1,7 +1,7 @@
 {
   "name": "GoodMem DevContainer",
 
-  // Build locally from your Dockerfile; fallback to GHCR if you choose
+  // Local build from your Dockerfile; fallback if you push to GHCR
   "build": {
     "dockerfile": "../Dockerfile",
     "context": ".."
@@ -66,9 +66,7 @@
     }
   },
 
-  "runArgs": [
-    "--privileged"
-  ],
+  "runArgs": ["--privileged"],
 
   "mounts": [
     "source=goodmem-postgres-data,target=/var/lib/postgresql/data,type=volume",
@@ -82,22 +80,16 @@
       "label": "GoodMem REST API",
       "onAutoForward": "notify"
     },
-    "9090": {
-      "label": "GoodMem gRPC API"
-    },
-    "5432": {
-      "label": "PostgreSQL Database"
-    },
-    "8001": {
-      "label": "JobRunr Dashboard"
-    }
+    "9090": { "label": "GoodMem gRPC API" },
+    "5432": { "label": "PostgreSQL Database" },
+    "8001": { "label": "JobRunr Dashboard" }
   },
 
-  // runs once at container creation, but does nothing besides a confirmation
-  "postCreateCommand": "echo '✅ GoodMem CLI & images baked into the container build.'",
+  // runs once at container creation -- no actual install here
+  "postCreateCommand": "echo '✅ GoodMem installer will run on first attach.'",
 
-  // runs exactly once on attach; launches the interactive setup wizard
-  "postAttachCommand": "bash -i -c 'if [ \"$SKIP_POSTATTACH\" != \"true\" ]; then goodmem setup --debug-install; fi'",
+  // runs exactly once on first attach; prompts you via TTY and runs as root
+  "postAttachCommand": "bash -i -c 'if [ \"$SKIP_POSTATTACH\" != \"true\" ]; then sudo curl -s https://get.goodmem.ai | bash; fi'",
 
   "remoteUser": "vscode"
 }
