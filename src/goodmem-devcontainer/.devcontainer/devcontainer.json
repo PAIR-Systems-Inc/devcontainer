@@ -79,6 +79,6 @@
     "source=goodmem-docker-data,target=/var/lib/docker,type=volume"
   ],
   "postCreateCommand": "bash -c 'if [ ! -f .env ]; then echo \"# GoodMem Configuration\" > .env; echo \"ADD_API_KEY=your-goodmem-api-key-here\" >> .env; echo \"OPENAI_API_KEY=your-openai-api-key-here\" >> .env; echo \"ANTHROPIC_API_KEY=your-anthropic-api-key-here\" >> .env; echo \"\" >> .env; echo \"# GoodMem Server Settings\" >> .env; echo \"GOODMEM_SERVER_URL=http://localhost:8080\" >> .env; echo \"GOODMEM_DEBUG=true\" >> .env; echo \"Created .env file with API key templates\"; else echo \".env file already exists, skipping creation\"; fi'",
-  "postStartCommand": "bash -c 'echo \"🚀 Welcome to GoodMem DevContainer!\" && echo \"\" && echo \"Starting GoodMem installation...\" && echo \"\" && curl -s https://get.goodmem.ai | bash -s -- --debug-install'",
+  "postStartCommand": "bash -c 'echo \"🚀 Welcome to GoodMem DevContainer!\" && echo \"\" && echo \"Installing GoodMem server...\" && echo \"\" && curl -s https://get.goodmem.ai | bash'",
   "remoteUser": "vscode"
 }

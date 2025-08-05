@@ -1,6 +1,6 @@
 {
   "id": "goodmem-devcontainer",
-  "version": "0.5.7",
+  "version": "0.5.8",
   "name": "GoodMem DevContainer",
   "description": "Prebuilt devcontainer with full multi-language SDK setup for GoodMem projects.",
   "documentationURL": "https://github.com/PAIR-Systems-Inc/devcontainer",
