@@ -108,8 +108,16 @@ else
     docker volume create goodmem_data || true
     docker volume create goodmem_pgdata || true
     
-    # Install GoodMem server in debug mode without OpenAI setup (unattended)
-    curl -s https://get.goodmem.ai | bash -s -- --debug-install --no-openai-embedder-registration
+    # Check if Docker is already installed
+    if command -v docker &> /dev/null; then
+        echo "Docker already installed, proceeding with GoodMem installation..."
+        # Install GoodMem server in debug mode without OpenAI setup (unattended)
+        curl -s https://get.goodmem.ai | bash -s -- --debug-install --no-openai-embedder-registration --skip-docker-install
+    else
+        echo "Installing Docker and GoodMem server..."
+        # Install GoodMem server in debug mode without OpenAI setup (unattended)
+        curl -s https://get.goodmem.ai | bash -s -- --debug-install --no-openai-embedder-registration
+    fi
 fi
 
 echo ""

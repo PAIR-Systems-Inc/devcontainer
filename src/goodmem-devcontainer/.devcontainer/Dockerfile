@@ -67,6 +67,10 @@ RUN useradd -m -s /bin/bash vscode && \
 # Create workspace
 RUN mkdir -p /workspace && chown -R vscode:vscode /workspace
 
+# Copy setup script to system location (hidden from workspace)
+COPY setup.sh /usr/local/bin/goodmem-setup.sh
+RUN chmod +x /usr/local/bin/goodmem-setup.sh
+
 # Ensure permissions are correct
 RUN chown -R vscode:vscode /home/vscode
 
