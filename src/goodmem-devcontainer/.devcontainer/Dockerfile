@@ -2,12 +2,12 @@ FROM ubuntu:22.04
 
 LABEL org.opencontainers.image.title="GoodMem Dev Environment" \
       org.opencontainers.image.description="Prebuilt DevContainer for GoodMem projects" \
-      org.opencontainers.image.version="1.0.20" \
+      org.opencontainers.image.version="1.0.21" \
       org.opencontainers.image.licenses="MIT" \
       org.opencontainers.image.url="https://github.com/PAIR-Systems-Inc/devcontainer" \
       org.opencontainers.image.source="https://github.com/PAIR-Systems-Inc/devcontainer" \
       com.github.devcontainers.template=true \
-      com.github.devcontainers.template.version="1.0.20"
+      com.github.devcontainers.template.version="1.0.21"
 
 SHELL ["/bin/bash", "-c"]
 
