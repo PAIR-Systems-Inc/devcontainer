@@ -1,10 +1,10 @@
 {
   "name": "GoodMem DevContainer",
 
-  // Build locally from your Dockerfile; fallback to GHCR if you choose
+  // 1️⃣ Build locally from your Dockerfile (or you can swap to the GHCR image once you push it)
   "build": {
-    "dockerfile": "Dockerfile",
-    "context": ".."
+    "context": "..",
+    "dockerfile": "../Dockerfile"
   },
   "image": "ghcr.io/pair-systems-inc/goodmem-dev:latest",
 
@@ -42,10 +42,7 @@
         "python.linting.pylintEnabled": true,
         "java.home": "/usr/lib/jvm/java-17-openjdk-amd64",
         "java.configuration.runtimes": [
-          {
-            "name": "JavaSE-17",
-            "path": "/usr/lib/jvm/java-17-openjdk-amd64"
-          }
+          { "name": "JavaSE-17", "path": "/usr/lib/jvm/java-17-openjdk-amd64" }
         ],
         "dotnet.defaultSolution": "disable",
         "omnisharp.enableRoslynAnalyzers": true,
@@ -56,49 +53,39 @@
         "typescript.preferences.quoteStyle": "double",
         "javascript.preferences.quoteStyle": "double",
         "editor.formatOnSave": true,
-        "editor.codeActionsOnSave": {
-          "source.organizeImports": "explicit"
-        },
-        "files.associations": {
-          "*.env": "dotenv"
-        }
+        "editor.codeActionsOnSave": { "source.organizeImports": "explicit" },
+        "files.associations": { "*.env": "dotenv" }
       }
     }
   },
 
-  "runArgs": [
-    "--privileged"
-  ],
-
+  // 2️⃣ Give the container full Docker access
+  "runArgs": ["--privileged"],
   "mounts": [
-    // Bind host Docker socket so the installer can start containers
+    // so the GoodMem installer can start Docker containers on your behalf
     "source=/var/run/docker.sock,target=/var/run/docker.sock,type=bind",
-    // Your existing volumes
+    // your existing data volumes
     "source=goodmem-postgres-data,target=/var/lib/postgresql/data,type=volume",
     "source=goodmem-docker-data,target=/var/lib/docker,type=volume"
   ],
 
+  // 3️⃣ Networking
   "forwardPorts": [8080, 9090, 5432, 8001],
-
   "portsAttributes": {
-    "8080": {
-      "label": "GoodMem REST API",
-      "onAutoForward": "notify"
-    },
-    "9090": {
-      "label": "GoodMem gRPC API"
-    },
-    "5432": {
-      "label": "PostgreSQL Database"
-    },
-    "8001": {
-      "label": "JobRunr Dashboard"
-    }
+    "8080": { "label": "GoodMem REST API",    "onAutoForward": "notify" },
+    "9090": { "label": "GoodMem gRPC API" },
+    "5432": { "label": "PostgreSQL Database" },
+    "8001": { "label": "JobRunr Dashboard" }
   },
 
-  // No-op at creation
-  "postCreateCommand": "echo '✅ Dev container created; run setup on attach.'",
+  // 4️⃣ Hook timings
+  //    • postCreateCommand runs on container *creation*  → NO installer here
+  "postCreateCommand": "echo '✅ Dev container created; installer will run on attach.'",
 
-  // Interactive installer fires once on first attach (as root)
-  "postAttachCommand": "bash -i -c 'if [ \"$SKIP_POSTATTACH\" != \"true\" ]; then curl -s https://get.goodmem.ai | bash; fi'"
+  //    • postAttachCommand runs on first *attach* (in a real TTY)
+  //      this is where we fire the GoodMem one-liner and you answer Debug vs Prod
+  "postAttachCommand": "bash -i -c 'if [ \"$SKIP_POSTATTACH\" != \"true\" ]; then curl -s https://get.goodmem.ai | bash; fi'",
+
+  // 5️⃣ Keep VS Code running as the vscode user so your files stay owned by you
+  "remoteUser": "vscode"
 }
