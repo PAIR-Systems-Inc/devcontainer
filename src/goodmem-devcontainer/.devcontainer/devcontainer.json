@@ -1,6 +1,13 @@
 {
   "name": "GoodMem DevContainer",
+
+  // Build locally from your Dockerfile; fallback to GHCR if you choose
+  "build": {
+    "dockerfile": "../Dockerfile",
+    "context": ".."
+  },
   "image": "ghcr.io/pair-systems-inc/goodmem-dev:latest",
+
   "customizations": {
     "vscode": {
       "extensions": [
@@ -58,14 +65,18 @@
       }
     }
   },
+
   "runArgs": [
     "--privileged"
   ],
+
   "mounts": [
     "source=goodmem-postgres-data,target=/var/lib/postgresql/data,type=volume",
     "source=goodmem-docker-data,target=/var/lib/docker,type=volume"
   ],
+
   "forwardPorts": [8080, 9090, 5432, 8001],
+
   "portsAttributes": {
     "8080": {
       "label": "GoodMem REST API",
@@ -81,6 +92,12 @@
       "label": "JobRunr Dashboard"
     }
   },
-  "postCreateCommand": "bash -c 'if [ \"$SKIP_POSTCREATE\" != \"true\" ]; then export USER=$(whoami) && curl -s https://get.goodmem.ai | bash; else echo \"Skipping GoodMem installation (CI mode)\"; fi'",
+
+  // runs once at container creation, but does nothing besides a confirmation
+  "postCreateCommand": "echo '✅ GoodMem CLI & images baked into the container build.'",
+
+  // runs exactly once on attach; launches the interactive setup wizard
+  "postAttachCommand": "bash -i -c 'if [ \"$SKIP_POSTATTACH\" != \"true\" ]; then goodmem setup --debug-install; fi'",
+
   "remoteUser": "vscode"
 }
