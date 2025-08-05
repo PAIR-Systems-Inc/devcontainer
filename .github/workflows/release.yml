@@ -46,7 +46,7 @@ jobs:
           push: never
           skipContainerUserIdUpdate: true
           env: |
-            SKIP_POSTSTART=true
+            SKIP_POSTCREATE=true
           runCmd: |
             echo "=== Testing Core Runtimes ==="
             python3 --version
@@ -64,7 +64,7 @@ jobs:
           push: never
           skipContainerUserIdUpdate: true
           env: |
-            SKIP_POSTSTART=true
+            SKIP_POSTCREATE=true
           runCmd: |
             echo "=== Testing Python Package Imports ==="
             python3 -c "
@@ -93,7 +93,7 @@ jobs:
           push: never
           skipContainerUserIdUpdate: true
           env: |
-            SKIP_POSTSTART=true
+            SKIP_POSTCREATE=true
           runCmd: |
             echo "=== Running Full Python Test Suite ==="
             cd /workspaces/devcontainer
