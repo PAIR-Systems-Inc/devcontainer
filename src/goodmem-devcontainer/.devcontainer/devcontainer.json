@@ -1,7 +1,7 @@
 {
   "name": "GoodMem DevContainer",
 
-  // Local build from your Dockerfile; fallback if you push to GHCR
+  // Build locally from your Dockerfile; fallback to GHCR if you choose
   "build": {
     "dockerfile": "../Dockerfile",
     "context": ".."
@@ -20,7 +20,7 @@
         "redhat.java",
         "vscjava.vscode-java-pack",
         "vscjava.vscode-java-debug",
-        "vscjava.vscode-maven",
+        "vscjava.vscode-java-maven",
         "vscjava.vscode-java-test",
         "ms-dotnettools.csharp",
         "ms-dotnettools.vscode-dotnet-runtime",
@@ -66,9 +66,14 @@
     }
   },
 
-  "runArgs": ["--privileged"],
+  "runArgs": [
+    "--privileged"
+  ],
 
   "mounts": [
+    // bind-mount host Docker socket so goodmem installer can start containers
+    "source=/var/run/docker.sock,target=/var/run/docker.sock,type=bind",
+    // your existing volumes
     "source=goodmem-postgres-data,target=/var/lib/postgresql/data,type=volume",
     "source=goodmem-docker-data,target=/var/lib/docker,type=volume"
   ],
@@ -80,15 +85,21 @@
       "label": "GoodMem REST API",
       "onAutoForward": "notify"
     },
-    "9090": { "label": "GoodMem gRPC API" },
-    "5432": { "label": "PostgreSQL Database" },
-    "8001": { "label": "JobRunr Dashboard" }
+    "9090": {
+      "label": "GoodMem gRPC API"
+    },
+    "5432": {
+      "label": "PostgreSQL Database"
+    },
+    "8001": {
+      "label": "JobRunr Dashboard"
+    }
   },
 
-  // runs once at container creation -- no actual install here
-  "postCreateCommand": "echo '✅ GoodMem installer will run on first attach.'",
+  // no-op at creation
+  "postCreateCommand": "echo '✅ Dev container ready; installer will run on first attach.'",
 
-  // runs exactly once on first attach; prompts you via TTY and runs as root
+  // run the full one-liner installer interactively (as root via sudo) on first attach
   "postAttachCommand": "bash -i -c 'if [ \"$SKIP_POSTATTACH\" != \"true\" ]; then sudo curl -s https://get.goodmem.ai | bash; fi'",
 
   "remoteUser": "vscode"
